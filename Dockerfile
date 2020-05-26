@@ -1,5 +1,4 @@
 FROM buildkite/puppeteer
-RUN apt install chromium
 COPY . /web_to_pdf/
 WORKDIR /web_to_pdf
 RUN npm install --production
