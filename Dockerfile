@@ -1,8 +1,7 @@
 FROM fifsky/html-to-pdf
-COPY . /web_to_pdf/
-WORKDIR /web_to_pdf
-# RUN npm install --production
-RUN pwd
+COPY . .
+RUN npm install --production
+RUN echo "This is the current directory: `pwd`"
 RUN ls
 
-ENTRYPOINT ["node", "/web_to_pdf/dist/index.js"]
+ENTRYPOINT ["node", "/dist/index.js"]
