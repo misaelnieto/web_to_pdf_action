@@ -1,6 +1,6 @@
 {
   "name": "web_to_pdf_action",
-  "version": "0.3",
+  "version": "0.3.1",
   "description": "A [GitHub Action](https://github.com/features/actions) to convert any webpage to a PDF document.",
   "main": "action.js",
   "dependencies": {
@@ -8,9 +8,15 @@
     "@actions/github": "^2.2.0",
     "puppeteer": "^3.1.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@zeit/ncc": "^0.22.3",
+    "eslint": "^7.1.0",
+    "jest": "^26.0.1"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "eslint *.js",
+    "package": "ncc build action.js -o dist",
+    "test": "eslint action.js && jest"
   },
   "repository": {
     "type": "git",
