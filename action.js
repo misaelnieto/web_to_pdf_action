@@ -2,7 +2,6 @@
 const core = require('@actions/core');
 const puppeteer = require('puppeteer');
 
-
 (async () => {
     try {
         const webPageURL = core.getInput('webPageURL');

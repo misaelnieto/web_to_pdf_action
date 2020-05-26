@@ -16,7 +16,14 @@
     "type": "git",
     "url": "git+https://github.com/misaelnieto/web_to_pdf_action.git"
   },
-  "keywords": [],
+  "keywords": [
+    "GitHub",
+    "Actions",
+    "JavaScript",
+    "PDF",
+    "Headless",
+    "Export"
+  ],
   "author": "Noe Misael Nieto Arroyo <nnieto@noenieto.com>",
   "license": "MIT",
   "bugs": {
