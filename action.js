@@ -12,7 +12,7 @@ const puppeteer = require('puppeteer');
         };
         const pdfOpts = Object.assign({}, core.getInput('pdfOpts'), pdfDefaults);
         const pptrOpts = {
-            // executablePath: '/usr/bin/google-chrome-unstable',
+            executablePath: '/usr/bin/google-chrome-stable',
             args: ['--no-sandbox', '--headless', '--disable-gpu']
         };
         console.log(`Starting PDF generation for ${webPageURL}`);
