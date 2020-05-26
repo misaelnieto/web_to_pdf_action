@@ -1,7 +1,7 @@
 FROM node:lts
 
-COPY action.js /action.js
-RUN ["chmod", "+x", "/action.js"]
+COPY . /action/
+WORKDIR /action
 RUN npm install --production
 
-ENTRYPOINT ["node", "/action.js"]
+ENTRYPOINT ["node", "action.js"]
