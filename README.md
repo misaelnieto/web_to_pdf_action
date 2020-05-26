@@ -14,7 +14,7 @@ Internally uses Puppeteer's mojo to get the page and render it to print it to PD
 
 ```yml
 - name: html to pdf
-  uses: misaelnieto/web_to_pdf_action@master
+  uses: misaelnieto/web_to_pdf_action@v1
   with:
     webPage: https://www.noenieto.com/resume/
     outputFile: ./path/to/my/resume.pdf
