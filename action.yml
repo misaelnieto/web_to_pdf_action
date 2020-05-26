@@ -13,8 +13,16 @@ inputs:
       PDF options as described here:
       https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#pagepdfoptions -
       Needs to be in JSON format, e.g. `{"format": "Letter", "pageRanges": "1"}`
+      This only works when set usePuppeteer to true.
     required: false
     default: "{}"
+  usePuppeteer:
+    description: |
+      Use the Puppeteer library instead of calling google-chrome directly.
+      This would allow more control over the output, but for the moment it doesn't
+      work as expected.
+    required: false
+    default: "false"
 runs:
   # using: 'node12'
   # main: 'dist/index.js'
