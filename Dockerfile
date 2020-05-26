@@ -1,7 +1,7 @@
 FROM node:lts
 
-COPY . /action/
-WORKDIR /action
+COPY . /web_to_pdf/
+WORKDIR /web_to_pdf
 RUN npm install --production
 
-ENTRYPOINT ["node", "action.js"]
+ENTRYPOINT ["node", "/web_to_pdf/action.js"]
