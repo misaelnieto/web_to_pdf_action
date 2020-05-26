@@ -1,7 +1,7 @@
-FROM node:slim
+FROM node:lts
 
 COPY . .
 
 RUN npm install --production
 
-ENTRYPOINT ["node", "/lib/main.js"]
+ENTRYPOINT ["node", "action.js"]

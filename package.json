@@ -1,8 +1,8 @@
 {
-  "name": "container-toolkit-template",
-  "version": "0.0.0",
-  "description": "Container template action using actions/toolkit",
-  "main": "lib/main.js",
+  "name": "web_to_pdf_action",
+  "version": "0.1",
+  "description": "Github Action to convert any webpage to a PDF document.",
+  "main": "action.js",
   "scripts": {
     "build": "tsc",
     "format": "prettier --write **/*.ts",
@@ -10,20 +10,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/actions/container-toolkit-template.git"
+    "url": "git+https://github.com/misaelnieto/web_to_pdf_action.git"
   },
   "keywords": [
-    "actions",
-    "container",
-    "toolkit",
-    "setup"
+    "action",
+    "pdf",
+    "webpage"
   ],
-  "author": "GitHub",
-  "license": "ISC",
+  "author": "Noe Misael Nieto Arroyo <nnieto@noenieto.com>",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/actions/container-toolkit-template/issues"
+    "url": "https://github.com/misaelnieto/web_to_pdf_action/issues"
   },
-  "homepage": "https://github.com/actions/container-toolkit-template#readme",
+  "homepage": "https://github.com/misaelnieto/web_to_pdf_action#readme",
   "dependencies": {
     "@actions/core": "^1.0.0",
     "@actions/io": "^1.0.0",
@@ -38,6 +37,7 @@
     "jest-circus": "^24.7.1",
     "prettier": "^1.17.1",
     "ts-jest": "^24.0.2",
-    "typescript": "^3.5.1"
+    "typescript": "^3.5.1",
+    "puppeteer": "~3.1.0"
   }
 }

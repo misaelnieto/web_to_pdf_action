@@ -1,10 +1,24 @@
 name: 'Container Action Template'
-description: 'Get started with Container actions'
-author: 'GitHub'
+description: 'Github Action to convert any webpage to a PDF document.'
+author: 'Noe Nieto <nnieto@noenieto.com'
 inputs: 
-  myInput:
-    description: 'Input to use'
-    default: 'world'
+  webPageURL:
+    description: 'URL of the page'
+    required: true
+  outputFile:
+    description: 'Path to the resulting PDF file'
+    required: true
+  pdfOptions:
+    description: |
+      PDF options as described here:
+      https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#pagepdfoptions -
+      Needs to be in JSON format, e.g. `{"format": "Letter", "pageRanges": "1"}`
+    required: false
+    default: "{}"
 runs:
   using: 'docker'
   image: 'Dockerfile'
+
+branding:
+  color: "green"
+  icon: "file"
