@@ -1,36 +1,26 @@
 {
   "name": "web_to_pdf_action",
-  "version": "0.1",
-  "description": "Github Action to convert any webpage to a PDF document.",
+  "version": "0.3",
+  "description": "A [GitHub Action](https://github.com/features/actions) to convert any webpage to a PDF document.",
   "main": "action.js",
+  "dependencies": {
+    "@actions/core": "^1.2.4",
+    "@actions/github": "^2.2.0",
+    "puppeteer": "^3.1.0"
+  },
+  "devDependencies": {},
   "scripts": {
-    "build": "tsc",
-    "format": "prettier --write **/*.ts",
-    "test": "jest"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/misaelnieto/web_to_pdf_action.git"
   },
-  "keywords": [
-    "action",
-    "pdf",
-    "webpage"
-  ],
+  "keywords": [],
   "author": "Noe Misael Nieto Arroyo <nnieto@noenieto.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/misaelnieto/web_to_pdf_action/issues"
   },
-  "homepage": "https://github.com/misaelnieto/web_to_pdf_action#readme",
-  "dependencies": {
-    "@actions/core": "^1.0.0",
-    "@actions/io": "^1.0.0",
-    "@actions/exec": "^1.0.0",
-    "@actions/github": "^1.0.0",
-    "@actions/tool-cache": "^1.0.0"
-  },
-  "devDependencies": {
-    "puppeteer": "~3.1.0"
-  }
+  "homepage": "https://github.com/misaelnieto/web_to_pdf_action#readme"
 }
