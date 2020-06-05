@@ -1,4 +1,4 @@
-name: 'Container Action Template'
+name: 'Webpage to PDF'
 description: 'Github Action to convert any webpage to a PDF document.'
 author: 'Noe Nieto <nnieto@noenieto.com'
 inputs: 
