@@ -8,6 +8,7 @@ const puppeteer = require('puppeteer');
         const webPageURL = core.getInput('webPageURL');
         const outputFile = core.getInput('outputFile');
         const usePuppeteer = core.getInput('usePuppeteer');
+        const useScreen = core.getInput('useScreen');
         console.log(`Starting PDF generation for ${webPageURL}`);
         if (usePuppeteer) {
             const pdfDefaults = {
@@ -25,7 +26,9 @@ const puppeteer = require('puppeteer');
             await daPage.goto(webPageURL, {
                 waitUntil: "networkidle0",
             })
-
+            if (useScreen) {
+                await daPage.emulateMediaType('screen');
+            }
             await daPage.pdf(pdfOpts)
             await browser.close()
 
