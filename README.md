@@ -8,6 +8,8 @@ Internally uses Puppeteer's mojo to get the page and render it to print it to PD
 
 * `webPageURL`: This is the URL of the page. **Required**.
 * `outputFile`: Path to the generated PDF file. **Required**.
+* `usePuppeteer`: If you need to use Puppeteer or your chrome.
+* `useScreen`: If you want to use the option emulateMediaType to generate with screen  media and not print media
 * `pdfOptions`: PDF options as described on [Puppeteer's documentation](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#pagepdfoptions). This is optional.
 
 ## ✨ Example Usage
@@ -16,8 +18,10 @@ Internally uses Puppeteer's mojo to get the page and render it to print it to PD
 - name: html to pdf
   uses: misaelnieto/web_to_pdf_action@master
   with:
-    webPage: https://www.noenieto.com/resume/
+    webPageURL: https://www.noenieto.com/resume/
     outputFile: ./path/to/my/resume.pdf
+    usePuppeteer: true
+    useScreen: true
     pdfOptions: '{"format": "Letter", "margin": {"top": "10mm", "left": "10mm", "right": "10mm", "bottom": "10mm"}}'
 ```
 
