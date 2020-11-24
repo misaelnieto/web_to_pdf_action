@@ -173,7 +173,7 @@ class Sender {
    * Creates a Sender instance.
    *
    * @param {net.Socket} socket The connection socket
-   * @param {Object} extensions An object containing the negotiated extensions
+   * @param {Object} [extensions] An object containing the negotiated extensions
    */
   constructor(socket, extensions) {
     this._extensions = extensions || {};
@@ -193,10 +193,14 @@ class Sender {
    * @param {Buffer} data The data to frame
    * @param {Object} options Options object
    * @param {Number} options.opcode The opcode
-   * @param {Boolean} options.readOnly Specifies whether `data` can be modified
-   * @param {Boolean} options.fin Specifies whether or not to set the FIN bit
-   * @param {Boolean} options.mask Specifies whether or not to mask `data`
-   * @param {Boolean} options.rsv1 Specifies whether or not to set the RSV1 bit
+   * @param {Boolean} [options.readOnly=false] Specifies whether `data` can be
+   *     modified
+   * @param {Boolean} [options.fin=false] Specifies whether or not to set the
+   *     FIN bit
+   * @param {Boolean} [options.mask=false] Specifies whether or not to mask
+   *     `data`
+   * @param {Boolean} [options.rsv1=false] Specifies whether or not to set the
+   *     RSV1 bit
    * @return {Buffer[]} The framed data as a list of `Buffer` instances
    * @public
    */
@@ -249,10 +253,10 @@ class Sender {
   /**
    * Sends a close message to the other peer.
    *
-   * @param {(Number|undefined)} code The status code component of the body
-   * @param {String} data The message component of the body
-   * @param {Boolean} mask Specifies whether or not to mask the message
-   * @param {Function} cb Callback
+   * @param {Number} [code] The status code component of the body
+   * @param {String} [data] The message component of the body
+   * @param {Boolean} [mask=false] Specifies whether or not to mask the message
+   * @param {Function} [cb] Callback
    * @public
    */
   close(code, data, mask, cb) {
@@ -288,8 +292,8 @@ class Sender {
    * Frames and sends a close message.
    *
    * @param {Buffer} data The message to send
-   * @param {Boolean} mask Specifies whether or not to mask `data`
-   * @param {Function} cb Callback
+   * @param {Boolean} [mask=false] Specifies whether or not to mask `data`
+   * @param {Function} [cb] Callback
    * @private
    */
   doClose(data, mask, cb) {
@@ -309,8 +313,8 @@ class Sender {
    * Sends a ping message to the other peer.
    *
    * @param {*} data The message to send
-   * @param {Boolean} mask Specifies whether or not to mask `data`
-   * @param {Function} cb Callback
+   * @param {Boolean} [mask=false] Specifies whether or not to mask `data`
+   * @param {Function} [cb] Callback
    * @public
    */
   ping(data, mask, cb) {
@@ -330,10 +334,10 @@ class Sender {
   /**
    * Frames and sends a ping message.
    *
-   * @param {*} data The message to send
-   * @param {Boolean} mask Specifies whether or not to mask `data`
-   * @param {Boolean} readOnly Specifies whether `data` can be modified
-   * @param {Function} cb Callback
+   * @param {Buffer} data The message to send
+   * @param {Boolean} [mask=false] Specifies whether or not to mask `data`
+   * @param {Boolean} [readOnly=false] Specifies whether `data` can be modified
+   * @param {Function} [cb] Callback
    * @private
    */
   doPing(data, mask, readOnly, cb) {
@@ -353,8 +357,8 @@ class Sender {
    * Sends a pong message to the other peer.
    *
    * @param {*} data The message to send
-   * @param {Boolean} mask Specifies whether or not to mask `data`
-   * @param {Function} cb Callback
+   * @param {Boolean} [mask=false] Specifies whether or not to mask `data`
+   * @param {Function} [cb] Callback
    * @public
    */
   pong(data, mask, cb) {
@@ -374,10 +378,10 @@ class Sender {
   /**
    * Frames and sends a pong message.
    *
-   * @param {*} data The message to send
-   * @param {Boolean} mask Specifies whether or not to mask `data`
-   * @param {Boolean} readOnly Specifies whether `data` can be modified
-   * @param {Function} cb Callback
+   * @param {Buffer} data The message to send
+   * @param {Boolean} [mask=false] Specifies whether or not to mask `data`
+   * @param {Boolean} [readOnly=false] Specifies whether `data` can be modified
+   * @param {Function} [cb] Callback
    * @private
    */
   doPong(data, mask, readOnly, cb) {
@@ -398,11 +402,15 @@ class Sender {
    *
    * @param {*} data The message to send
    * @param {Object} options Options object
-   * @param {Boolean} options.compress Specifies whether or not to compress `data`
-   * @param {Boolean} options.binary Specifies whether `data` is binary or text
-   * @param {Boolean} options.fin Specifies whether the fragment is the last one
-   * @param {Boolean} options.mask Specifies whether or not to mask `data`
-   * @param {Function} cb Callback
+   * @param {Boolean} [options.compress=false] Specifies whether or not to
+   *     compress `data`
+   * @param {Boolean} [options.binary=false] Specifies whether `data` is binary
+   *     or text
+   * @param {Boolean} [options.fin=false] Specifies whether the fragment is the
+   *     last one
+   * @param {Boolean} [options.mask=false] Specifies whether or not to mask
+   *     `data`
+   * @param {Function} [cb] Callback
    * @public
    */
   send(data, options, cb) {
@@ -456,14 +464,19 @@ class Sender {
    * Dispatches a data message.
    *
    * @param {Buffer} data The message to send
-   * @param {Boolean} compress Specifies whether or not to compress `data`
+   * @param {Boolean} [compress=false] Specifies whether or not to compress
+   *     `data`
    * @param {Object} options Options object
    * @param {Number} options.opcode The opcode
-   * @param {Boolean} options.readOnly Specifies whether `data` can be modified
-   * @param {Boolean} options.fin Specifies whether or not to set the FIN bit
-   * @param {Boolean} options.mask Specifies whether or not to mask `data`
-   * @param {Boolean} options.rsv1 Specifies whether or not to set the RSV1 bit
-   * @param {Function} cb Callback
+   * @param {Boolean} [options.readOnly=false] Specifies whether `data` can be
+   *     modified
+   * @param {Boolean} [options.fin=false] Specifies whether or not to set the
+   *     FIN bit
+   * @param {Boolean} [options.mask=false] Specifies whether or not to mask
+   *     `data`
+   * @param {Boolean} [options.rsv1=false] Specifies whether or not to set the
+   *     RSV1 bit
+   * @param {Function} [cb] Callback
    * @private
    */
   dispatch(data, compress, options, cb) {
@@ -474,6 +487,7 @@ class Sender {
 
     const perMessageDeflate = this._extensions[PerMessageDeflate.extensionName];
 
+    this._bufferedBytes += data.length;
     this._deflating = true;
     perMessageDeflate.compress(data, options.fin, (_, buf) => {
       if (this._socket.destroyed) {
@@ -492,6 +506,7 @@ class Sender {
         return;
       }
 
+      this._bufferedBytes -= data.length;
       this._deflating = false;
       options.readOnly = false;
       this.sendFrame(Sender.frame(buf, options), cb);
@@ -528,7 +543,7 @@ class Sender {
    * Sends a frame.
    *
    * @param {Buffer[]} list The frame to send
-   * @param {Function} cb Callback
+   * @param {Function} [cb] Callback
    * @private
    */
   sendFrame(list, cb) {
@@ -754,22 +769,21 @@ class WebSocket extends EventEmitter {
    * Create a new `WebSocket`.
    *
    * @param {(String|url.URL)} address The URL to which to connect
-   * @param {(String|String[])} protocols The subprotocols
-   * @param {Object} options Connection options
+   * @param {(String|String[])} [protocols] The subprotocols
+   * @param {Object} [options] Connection options
    */
   constructor(address, protocols, options) {
     super();
 
-    this.readyState = WebSocket.CONNECTING;
-    this.protocol = '';
-
     this._binaryType = BINARY_TYPES[0];
+    this._closeCode = 1006;
     this._closeFrameReceived = false;
     this._closeFrameSent = false;
     this._closeMessage = '';
     this._closeTimer = null;
-    this._closeCode = 1006;
     this._extensions = {};
+    this._protocol = '';
+    this._readyState = WebSocket.CONNECTING;
     this._receiver = null;
     this._sender = null;
     this._socket = null;
@@ -790,19 +804,6 @@ class WebSocket extends EventEmitter {
     } else {
       this._isServer = true;
     }
-  }
-
-  get CONNECTING() {
-    return WebSocket.CONNECTING;
-  }
-  get CLOSING() {
-    return WebSocket.CLOSING;
-  }
-  get CLOSED() {
-    return WebSocket.CLOSED;
-  }
-  get OPEN() {
-    return WebSocket.OPEN;
   }
 
   /**
@@ -833,10 +834,7 @@ class WebSocket extends EventEmitter {
   get bufferedAmount() {
     if (!this._socket) return this._bufferedAmount;
 
-    //
-    // `socket.bufferSize` is `undefined` if the socket is closed.
-    //
-    return (this._socket.bufferSize || 0) + this._sender._bufferedBytes;
+    return this._socket._writableState.length + this._sender._bufferedBytes;
   }
 
   /**
@@ -847,16 +845,37 @@ class WebSocket extends EventEmitter {
   }
 
   /**
+   * @type {String}
+   */
+  get protocol() {
+    return this._protocol;
+  }
+
+  /**
+   * @type {Number}
+   */
+  get readyState() {
+    return this._readyState;
+  }
+
+  /**
+   * @type {String}
+   */
+  get url() {
+    return this._url;
+  }
+
+  /**
    * Set up the socket and the internal resources.
    *
    * @param {net.Socket} socket The network socket between the server and client
    * @param {Buffer} head The first packet of the upgraded stream
-   * @param {Number} maxPayload The maximum allowed message size
+   * @param {Number} [maxPayload=0] The maximum allowed message size
    * @private
    */
   setSocket(socket, head, maxPayload) {
     const receiver = new Receiver(
-      this._binaryType,
+      this.binaryType,
       this._extensions,
       this._isServer,
       maxPayload
@@ -886,7 +905,7 @@ class WebSocket extends EventEmitter {
     socket.on('end', socketOnEnd);
     socket.on('error', socketOnError);
 
-    this.readyState = WebSocket.OPEN;
+    this._readyState = WebSocket.OPEN;
     this.emit('open');
   }
 
@@ -897,7 +916,7 @@ class WebSocket extends EventEmitter {
    */
   emitClose() {
     if (!this._socket) {
-      this.readyState = WebSocket.CLOSED;
+      this._readyState = WebSocket.CLOSED;
       this.emit('close', this._closeCode, this._closeMessage);
       return;
     }
@@ -907,7 +926,7 @@ class WebSocket extends EventEmitter {
     }
 
     this._receiver.removeAllListeners();
-    this.readyState = WebSocket.CLOSED;
+    this._readyState = WebSocket.CLOSED;
     this.emit('close', this._closeCode, this._closeMessage);
   }
 
@@ -926,8 +945,8 @@ class WebSocket extends EventEmitter {
    *     - - - - -|fin|<---------------------+
    *              +---+
    *
-   * @param {Number} code Status code explaining why the connection is closing
-   * @param {String} data A string explaining why the connection is closing
+   * @param {Number} [code] Status code explaining why the connection is closing
+   * @param {String} [data] A string explaining why the connection is closing
    * @public
    */
   close(code, data) {
@@ -942,7 +961,7 @@ class WebSocket extends EventEmitter {
       return;
     }
 
-    this.readyState = WebSocket.CLOSING;
+    this._readyState = WebSocket.CLOSING;
     this._sender.close(code, data, !this._isServer, (err) => {
       //
       // This error is handled by the `'error'` listener on the socket. We only
@@ -966,9 +985,9 @@ class WebSocket extends EventEmitter {
   /**
    * Send a ping.
    *
-   * @param {*} data The data to send
-   * @param {Boolean} mask Indicates whether or not to mask `data`
-   * @param {Function} cb Callback which is executed when the ping is sent
+   * @param {*} [data] The data to send
+   * @param {Boolean} [mask] Indicates whether or not to mask `data`
+   * @param {Function} [cb] Callback which is executed when the ping is sent
    * @public
    */
   ping(data, mask, cb) {
@@ -998,9 +1017,9 @@ class WebSocket extends EventEmitter {
   /**
    * Send a pong.
    *
-   * @param {*} data The data to send
-   * @param {Boolean} mask Indicates whether or not to mask `data`
-   * @param {Function} cb Callback which is executed when the pong is sent
+   * @param {*} [data] The data to send
+   * @param {Boolean} [mask] Indicates whether or not to mask `data`
+   * @param {Function} [cb] Callback which is executed when the pong is sent
    * @public
    */
   pong(data, mask, cb) {
@@ -1031,13 +1050,15 @@ class WebSocket extends EventEmitter {
    * Send a data message.
    *
    * @param {*} data The message to send
-   * @param {Object} options Options object
-   * @param {Boolean} options.compress Specifies whether or not to compress
+   * @param {Object} [options] Options object
+   * @param {Boolean} [options.compress] Specifies whether or not to compress
    *     `data`
-   * @param {Boolean} options.binary Specifies whether `data` is binary or text
-   * @param {Boolean} options.fin Specifies whether the fragment is the last one
-   * @param {Boolean} options.mask Specifies whether or not to mask `data`
-   * @param {Function} cb Callback which is executed when data is written out
+   * @param {Boolean} [options.binary] Specifies whether `data` is binary or
+   *     text
+   * @param {Boolean} [options.fin=true] Specifies whether the fragment is the
+   *     last one
+   * @param {Boolean} [options.mask] Specifies whether or not to mask `data`
+   * @param {Function} [cb] Callback which is executed when data is written out
    * @public
    */
   send(data, options, cb) {
@@ -1085,14 +1106,28 @@ class WebSocket extends EventEmitter {
     }
 
     if (this._socket) {
-      this.readyState = WebSocket.CLOSING;
+      this._readyState = WebSocket.CLOSING;
       this._socket.destroy();
     }
   }
 }
 
 readyStates.forEach((readyState, i) => {
-  WebSocket[readyState] = i;
+  const descriptor = { enumerable: true, value: i };
+
+  Object.defineProperty(WebSocket.prototype, readyState, descriptor);
+  Object.defineProperty(WebSocket, readyState, descriptor);
+});
+
+[
+  'binaryType',
+  'bufferedAmount',
+  'extensions',
+  'protocol',
+  'readyState',
+  'url'
+].forEach((property) => {
+  Object.defineProperty(WebSocket.prototype, property, { enumerable: true });
 });
 
 //
@@ -1101,6 +1136,8 @@ readyStates.forEach((readyState, i) => {
 //
 ['open', 'error', 'close', 'message'].forEach((method) => {
   Object.defineProperty(WebSocket.prototype, `on${method}`, {
+    configurable: true,
+    enumerable: true,
     /**
      * Return the listener of the event.
      *
@@ -1144,19 +1181,22 @@ module.exports = WebSocket;
  *
  * @param {WebSocket} websocket The client to initialize
  * @param {(String|url.URL)} address The URL to which to connect
- * @param {String} protocols The subprotocols
- * @param {Object} options Connection options
- * @param {(Boolean|Object)} options.perMessageDeflate Enable/disable
+ * @param {String} [protocols] The subprotocols
+ * @param {Object} [options] Connection options
+ * @param {(Boolean|Object)} [options.perMessageDeflate=true] Enable/disable
  *     permessage-deflate
- * @param {Number} options.handshakeTimeout Timeout in milliseconds for the
+ * @param {Number} [options.handshakeTimeout] Timeout in milliseconds for the
  *     handshake request
- * @param {Number} options.protocolVersion Value of the `Sec-WebSocket-Version`
- *     header
- * @param {String} options.origin Value of the `Origin` or
+ * @param {Number} [options.protocolVersion=13] Value of the
+ *     `Sec-WebSocket-Version` header
+ * @param {String} [options.origin] Value of the `Origin` or
  *     `Sec-WebSocket-Origin` header
- * @param {Number} options.maxPayload The maximum allowed message size
- * @param {Boolean} options.followRedirects Whether or not to follow redirects
- * @param {Number} options.maxRedirects The maximum number of redirects allowed
+ * @param {Number} [options.maxPayload=104857600] The maximum allowed message
+ *     size
+ * @param {Boolean} [options.followRedirects=false] Whether or not to follow
+ *     redirects
+ * @param {Number} [options.maxRedirects=10] The maximum number of redirects
+ *     allowed
  * @private
  */
 function initAsClient(websocket, address, protocols, options) {
@@ -1189,10 +1229,10 @@ function initAsClient(websocket, address, protocols, options) {
 
   if (address instanceof URL) {
     parsedUrl = address;
-    websocket.url = address.href;
+    websocket._url = address.href;
   } else {
     parsedUrl = new URL(address);
-    websocket.url = address;
+    websocket._url = address;
   }
 
   const isUnixSocket = parsedUrl.protocol === 'ws+unix:';
@@ -1267,7 +1307,7 @@ function initAsClient(websocket, address, protocols, options) {
     if (websocket._req.aborted) return;
 
     req = websocket._req = null;
-    websocket.readyState = WebSocket.CLOSING;
+    websocket._readyState = WebSocket.CLOSING;
     websocket.emit('error', err);
     websocket.emitClose();
   });
@@ -1338,7 +1378,7 @@ function initAsClient(websocket, address, protocols, options) {
       return;
     }
 
-    if (serverProt) websocket.protocol = serverProt;
+    if (serverProt) websocket._protocol = serverProt;
 
     if (perMessageDeflate) {
       try {
@@ -1403,7 +1443,7 @@ function tlsConnect(options) {
  * @private
  */
 function abortHandshake(websocket, stream, message) {
-  websocket.readyState = WebSocket.CLOSING;
+  websocket._readyState = WebSocket.CLOSING;
 
   const err = new Error(message);
   Error.captureStackTrace(err, abortHandshake);
@@ -1424,8 +1464,8 @@ function abortHandshake(websocket, stream, message) {
  * when the `readyState` attribute is `CLOSING` or `CLOSED`.
  *
  * @param {WebSocket} websocket The WebSocket instance
- * @param {*} data The data to send
- * @param {Function} cb Callback
+ * @param {*} [data] The data to send
+ * @param {Function} [cb] Callback
  * @private
  */
 function sendAfterClose(websocket, data, cb) {
@@ -1492,7 +1532,7 @@ function receiverOnError(err) {
 
   websocket._socket.removeListener('data', socketOnData);
 
-  websocket.readyState = WebSocket.CLOSING;
+  websocket._readyState = WebSocket.CLOSING;
   websocket._closeCode = err[kStatusCode];
   websocket.emit('error', err);
   websocket._socket.destroy();
@@ -1551,7 +1591,7 @@ function socketOnClose() {
   this.removeListener('close', socketOnClose);
   this.removeListener('end', socketOnEnd);
 
-  websocket.readyState = WebSocket.CLOSING;
+  websocket._readyState = WebSocket.CLOSING;
 
   //
   // The close frame might not have been received or the `'end'` event emitted,
@@ -1602,7 +1642,7 @@ function socketOnData(chunk) {
 function socketOnEnd() {
   const websocket = this[kWebSocket];
 
-  websocket.readyState = WebSocket.CLOSING;
+  websocket._readyState = WebSocket.CLOSING;
   websocket._receiver.end();
   this.end();
 }
@@ -1619,7 +1659,7 @@ function socketOnError() {
   this.on('error', NOOP);
 
   if (websocket) {
-    websocket.readyState = WebSocket.CLOSING;
+    websocket._readyState = WebSocket.CLOSING;
     this.destroy();
   }
 }
@@ -2346,18 +2386,18 @@ async function waitForPredicatePageFunction(predicateBody, polling, timeout, ...
     /**
      * @return {!Promise<*>}
      */
-    function pollMutation() {
-        const success = predicate(...args);
+    async function pollMutation() {
+        const success = await predicate(...args);
         if (success)
             return Promise.resolve(success);
         let fulfill;
         const result = new Promise((x) => (fulfill = x));
-        const observer = new MutationObserver(() => {
+        const observer = new MutationObserver(async () => {
             if (timedOut) {
                 observer.disconnect();
                 fulfill();
             }
-            const success = predicate(...args);
+            const success = await predicate(...args);
             if (success) {
                 observer.disconnect();
                 fulfill(success);
@@ -2370,34 +2410,34 @@ async function waitForPredicatePageFunction(predicateBody, polling, timeout, ...
         });
         return result;
     }
-    function pollRaf() {
+    async function pollRaf() {
         let fulfill;
         const result = new Promise((x) => (fulfill = x));
-        onRaf();
+        await onRaf();
         return result;
-        function onRaf() {
+        async function onRaf() {
             if (timedOut) {
                 fulfill();
                 return;
             }
-            const success = predicate(...args);
+            const success = await predicate(...args);
             if (success)
                 fulfill(success);
             else
                 requestAnimationFrame(onRaf);
         }
     }
-    function pollInterval(pollInterval) {
+    async function pollInterval(pollInterval) {
         let fulfill;
         const result = new Promise((x) => (fulfill = x));
-        onTimeout();
+        await onTimeout();
         return result;
-        function onTimeout() {
+        async function onTimeout() {
             if (timedOut) {
                 fulfill();
                 return;
             }
-            const success = predicate(...args);
+            const success = await predicate(...args);
             if (success)
                 fulfill(success);
             else
@@ -2672,6 +2712,66 @@ function onceStrict (fn) {
 
 /***/ }),
 
+/***/ 53:
+/***/ (function(module, __unusedexports, __webpack_require__) {
+
+"use strict";
+
+const {PassThrough: PassThroughStream} = __webpack_require__(413);
+
+module.exports = options => {
+	options = {...options};
+
+	const {array} = options;
+	let {encoding} = options;
+	const isBuffer = encoding === 'buffer';
+	let objectMode = false;
+
+	if (array) {
+		objectMode = !(encoding || isBuffer);
+	} else {
+		encoding = encoding || 'utf8';
+	}
+
+	if (isBuffer) {
+		encoding = null;
+	}
+
+	const stream = new PassThroughStream({objectMode});
+
+	if (encoding) {
+		stream.setEncoding(encoding);
+	}
+
+	let length = 0;
+	const chunks = [];
+
+	stream.on('data', chunk => {
+		chunks.push(chunk);
+
+		if (objectMode) {
+			length = chunks.length;
+		} else {
+			length += chunk.length;
+		}
+	});
+
+	stream.getBufferedValue = () => {
+		if (array) {
+			return chunks;
+		}
+
+		return isBuffer ? Buffer.concat(chunks, length) : chunks.join('');
+	};
+
+	stream.getBufferedLength = () => length;
+
+	return stream;
+};
+
+
+/***/ }),
+
 /***/ 58:
 /***/ (function(module) {
 
@@ -2699,6 +2799,10 @@ exports.formatArgs = formatArgs;
 exports.save = save;
 exports.load = load;
 exports.useColors = useColors;
+exports.destroy = util.deprecate(
+	() => {},
+	'Instance method `debug.destroy()` is deprecated and no longer does anything. It will be removed in the next major version of `debug`.'
+);
 
 /**
  * Colors.
@@ -2928,7 +3032,9 @@ const {formatters} = module.exports;
 formatters.o = function (v) {
 	this.inspectOpts.colors = this.useColors;
 	return util.inspect(v, this.inspectOpts)
-		.replace(/\s*\n\s*/g, ' ');
+		.split('\n')
+		.map(str => str.trim())
+		.join(' ');
 };
 
 /**
@@ -2940,6 +3046,32 @@ formatters.O = function (v) {
 	return util.inspect(v, this.inspectOpts);
 };
 
+
+/***/ }),
+
+/***/ 82:
+/***/ (function(__unusedmodule, exports) {
+
+"use strict";
+
+// We use any as a valid input type
+/* eslint-disable @typescript-eslint/no-explicit-any */
+Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * Sanitizes an input into a string so it can be passed into issueCommand safely
+ * @param input input to sanitize into a string
+ */
+function toCommandValue(input) {
+    if (input === null || input === undefined) {
+        return '';
+    }
+    else if (typeof input === 'string' || input instanceof String) {
+        return input;
+    }
+    return JSON.stringify(input);
+}
+exports.toCommandValue = toCommandValue;
+//# sourceMappingURL=utils.js.map
 
 /***/ }),
 
@@ -3952,6 +4084,280 @@ exports.PipeTransport = PipeTransport;
 
 /***/ }),
 
+/***/ 102:
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
+
+"use strict";
+
+// For internal use, subject to change.
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+// We use any as a valid input type
+/* eslint-disable @typescript-eslint/no-explicit-any */
+const fs = __importStar(__webpack_require__(747));
+const os = __importStar(__webpack_require__(87));
+const utils_1 = __webpack_require__(82);
+function issueCommand(command, message) {
+    const filePath = process.env[`GITHUB_${command}`];
+    if (!filePath) {
+        throw new Error(`Unable to find environment variable for file command ${command}`);
+    }
+    if (!fs.existsSync(filePath)) {
+        throw new Error(`Missing file at path: ${filePath}`);
+    }
+    fs.appendFileSync(filePath, `${utils_1.toCommandValue(message)}${os.EOL}`, {
+        encoding: 'utf8'
+    });
+}
+exports.issueCommand = issueCommand;
+//# sourceMappingURL=file-command.js.map
+
+/***/ }),
+
+/***/ 104:
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.HTTPRequest = void 0;
+const helper_1 = __webpack_require__(248);
+class HTTPRequest {
+    constructor(client, frame, interceptionId, allowInterception, event, redirectChain) {
+        this._failureText = null;
+        this._response = null;
+        this._fromMemoryCache = false;
+        this._interceptionHandled = false;
+        this._headers = {};
+        this._client = client;
+        this._requestId = event.requestId;
+        this._isNavigationRequest =
+            event.requestId === event.loaderId && event.type === 'Document';
+        this._interceptionId = interceptionId;
+        this._allowInterception = allowInterception;
+        this._url = event.request.url;
+        this._resourceType = event.type.toLowerCase();
+        this._method = event.request.method;
+        this._postData = event.request.postData;
+        this._frame = frame;
+        this._redirectChain = redirectChain;
+        for (const key of Object.keys(event.request.headers))
+            this._headers[key.toLowerCase()] = event.request.headers[key];
+    }
+    url() {
+        return this._url;
+    }
+    resourceType() {
+        return this._resourceType;
+    }
+    method() {
+        return this._method;
+    }
+    postData() {
+        return this._postData;
+    }
+    headers() {
+        return this._headers;
+    }
+    response() {
+        return this._response;
+    }
+    frame() {
+        return this._frame;
+    }
+    isNavigationRequest() {
+        return this._isNavigationRequest;
+    }
+    redirectChain() {
+        return this._redirectChain.slice();
+    }
+    /**
+     * @return {?{errorText: string}}
+     */
+    failure() {
+        if (!this._failureText)
+            return null;
+        return {
+            errorText: this._failureText,
+        };
+    }
+    async continue(overrides = {}) {
+        // Request interception is not supported for data: urls.
+        if (this._url.startsWith('data:'))
+            return;
+        helper_1.assert(this._allowInterception, 'Request Interception is not enabled!');
+        helper_1.assert(!this._interceptionHandled, 'Request is already handled!');
+        const { url, method, postData, headers } = overrides;
+        this._interceptionHandled = true;
+        await this._client
+            .send('Fetch.continueRequest', {
+            requestId: this._interceptionId,
+            url,
+            method,
+            postData,
+            headers: headers ? headersArray(headers) : undefined,
+        })
+            .catch((error) => {
+            // In certain cases, protocol will return error if the request was already canceled
+            // or the page was closed. We should tolerate these errors.
+            helper_1.debugError(error);
+        });
+    }
+    async respond(response) {
+        // Mocking responses for dataURL requests is not currently supported.
+        if (this._url.startsWith('data:'))
+            return;
+        helper_1.assert(this._allowInterception, 'Request Interception is not enabled!');
+        helper_1.assert(!this._interceptionHandled, 'Request is already handled!');
+        this._interceptionHandled = true;
+        const responseBody = response.body && helper_1.helper.isString(response.body)
+            ? Buffer.from(response.body)
+            : response.body || null;
+        const responseHeaders = {};
+        if (response.headers) {
+            for (const header of Object.keys(response.headers))
+                responseHeaders[header.toLowerCase()] = response.headers[header];
+        }
+        if (response.contentType)
+            responseHeaders['content-type'] = response.contentType;
+        if (responseBody && !('content-length' in responseHeaders))
+            responseHeaders['content-length'] = String(Buffer.byteLength(responseBody));
+        await this._client
+            .send('Fetch.fulfillRequest', {
+            requestId: this._interceptionId,
+            responseCode: response.status || 200,
+            responsePhrase: STATUS_TEXTS[response.status || 200],
+            responseHeaders: headersArray(responseHeaders),
+            body: responseBody ? responseBody.toString('base64') : undefined,
+        })
+            .catch((error) => {
+            // In certain cases, protocol will return error if the request was already canceled
+            // or the page was closed. We should tolerate these errors.
+            helper_1.debugError(error);
+        });
+    }
+    async abort(errorCode = 'failed') {
+        // Request interception is not supported for data: urls.
+        if (this._url.startsWith('data:'))
+            return;
+        const errorReason = errorReasons[errorCode];
+        helper_1.assert(errorReason, 'Unknown error code: ' + errorCode);
+        helper_1.assert(this._allowInterception, 'Request Interception is not enabled!');
+        helper_1.assert(!this._interceptionHandled, 'Request is already handled!');
+        this._interceptionHandled = true;
+        await this._client
+            .send('Fetch.failRequest', {
+            requestId: this._interceptionId,
+            errorReason,
+        })
+            .catch((error) => {
+            // In certain cases, protocol will return error if the request was already canceled
+            // or the page was closed. We should tolerate these errors.
+            helper_1.debugError(error);
+        });
+    }
+}
+exports.HTTPRequest = HTTPRequest;
+const errorReasons = {
+    aborted: 'Aborted',
+    accessdenied: 'AccessDenied',
+    addressunreachable: 'AddressUnreachable',
+    blockedbyclient: 'BlockedByClient',
+    blockedbyresponse: 'BlockedByResponse',
+    connectionaborted: 'ConnectionAborted',
+    connectionclosed: 'ConnectionClosed',
+    connectionfailed: 'ConnectionFailed',
+    connectionrefused: 'ConnectionRefused',
+    connectionreset: 'ConnectionReset',
+    internetdisconnected: 'InternetDisconnected',
+    namenotresolved: 'NameNotResolved',
+    timedout: 'TimedOut',
+    failed: 'Failed',
+};
+function headersArray(headers) {
+    const result = [];
+    for (const name in headers) {
+        if (!Object.is(headers[name], undefined))
+            result.push({ name, value: headers[name] + '' });
+    }
+    return result;
+}
+// List taken from https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml with extra 306 and 418 codes.
+const STATUS_TEXTS = {
+    '100': 'Continue',
+    '101': 'Switching Protocols',
+    '102': 'Processing',
+    '103': 'Early Hints',
+    '200': 'OK',
+    '201': 'Created',
+    '202': 'Accepted',
+    '203': 'Non-Authoritative Information',
+    '204': 'No Content',
+    '205': 'Reset Content',
+    '206': 'Partial Content',
+    '207': 'Multi-Status',
+    '208': 'Already Reported',
+    '226': 'IM Used',
+    '300': 'Multiple Choices',
+    '301': 'Moved Permanently',
+    '302': 'Found',
+    '303': 'See Other',
+    '304': 'Not Modified',
+    '305': 'Use Proxy',
+    '306': 'Switch Proxy',
+    '307': 'Temporary Redirect',
+    '308': 'Permanent Redirect',
+    '400': 'Bad Request',
+    '401': 'Unauthorized',
+    '402': 'Payment Required',
+    '403': 'Forbidden',
+    '404': 'Not Found',
+    '405': 'Method Not Allowed',
+    '406': 'Not Acceptable',
+    '407': 'Proxy Authentication Required',
+    '408': 'Request Timeout',
+    '409': 'Conflict',
+    '410': 'Gone',
+    '411': 'Length Required',
+    '412': 'Precondition Failed',
+    '413': 'Payload Too Large',
+    '414': 'URI Too Long',
+    '415': 'Unsupported Media Type',
+    '416': 'Range Not Satisfiable',
+    '417': 'Expectation Failed',
+    '418': "I'm a teapot",
+    '421': 'Misdirected Request',
+    '422': 'Unprocessable Entity',
+    '423': 'Locked',
+    '424': 'Failed Dependency',
+    '425': 'Too Early',
+    '426': 'Upgrade Required',
+    '428': 'Precondition Required',
+    '429': 'Too Many Requests',
+    '431': 'Request Header Fields Too Large',
+    '451': 'Unavailable For Legal Reasons',
+    '500': 'Internal Server Error',
+    '501': 'Not Implemented',
+    '502': 'Bad Gateway',
+    '503': 'Service Unavailable',
+    '504': 'Gateway Timeout',
+    '505': 'HTTP Version Not Supported',
+    '506': 'Variant Also Negotiates',
+    '507': 'Insufficient Storage',
+    '508': 'Loop Detected',
+    '510': 'Not Extended',
+    '511': 'Network Authentication Required',
+};
+
+
+/***/ }),
+
 /***/ 117:
 /***/ (function(__unusedmodule, exports, __webpack_require__) {
 
@@ -4293,7 +4699,7 @@ var statAll = function (fs, stat, cwd, ignore, entries, sort) {
     var next = queue.shift()
     var nextAbs = path.join(cwd, next)
 
-    stat(nextAbs, function (err, stat) {
+    stat.call(fs, nextAbs, function (err, stat) {
       if (err) return callback(err)
 
       if (!stat.isDirectory()) return callback(null, next, stat)
@@ -4494,12 +4900,15 @@ exports.extract = function (cwd, opts) {
     if (!chmod) return cb()
 
     var mode = (header.mode | (header.type === 'directory' ? dmode : fmode)) & umask
-    chmod(name, mode, function (err) {
+
+    if (chown && own) chown.call(xfs, name, header.uid, header.gid, onchown)
+    else onchown(null)
+
+    function onchown (err) {
       if (err) return cb(err)
-      if (!own) return cb()
-      if (!chown) return cb()
-      chown(name, header.uid, header.gid, cb)
-    })
+      if (!chmod) return cb()
+      chmod.call(xfs, name, mode, cb)
+    }
   }
 
   extract.on('entry', function (header, stream, next) {
@@ -4617,138 +5026,10 @@ function mkdirfix (name, opts, cb) {
 
 /***/ }),
 
-/***/ 128:
-/***/ (function(__unusedmodule, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Worker = void 0;
-/**
- * Copyright 2018 Google Inc. All rights reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-const events_1 = __webpack_require__(614);
-const helper_1 = __webpack_require__(248);
-const ExecutionContext_1 = __webpack_require__(577);
-const JSHandle_1 = __webpack_require__(542);
-class Worker extends events_1.EventEmitter {
-    constructor(client, url, consoleAPICalled, exceptionThrown) {
-        super();
-        this._client = client;
-        this._url = url;
-        this._executionContextPromise = new Promise((x) => (this._executionContextCallback = x));
-        let jsHandleFactory;
-        this._client.once('Runtime.executionContextCreated', async (event) => {
-            // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-            jsHandleFactory = (remoteObject) => new JSHandle_1.JSHandle(executionContext, client, remoteObject);
-            const executionContext = new ExecutionContext_1.ExecutionContext(client, event.context, null);
-            this._executionContextCallback(executionContext);
-        });
-        // This might fail if the target is closed before we recieve all execution contexts.
-        this._client.send('Runtime.enable', {}).catch(helper_1.debugError);
-        this._client.on('Runtime.consoleAPICalled', (event) => consoleAPICalled(event.type, event.args.map(jsHandleFactory), event.stackTrace));
-        this._client.on('Runtime.exceptionThrown', (exception) => exceptionThrown(exception.exceptionDetails));
-    }
-    url() {
-        return this._url;
-    }
-    async executionContext() {
-        return this._executionContextPromise;
-    }
-    async evaluate(pageFunction, ...args) {
-        return (await this._executionContextPromise).evaluate(pageFunction, ...args);
-    }
-    async evaluateHandle(pageFunction, ...args) {
-        return (await this._executionContextPromise).evaluateHandle(pageFunction, ...args);
-    }
-}
-exports.Worker = Worker;
-
-
-/***/ }),
-
 /***/ 129:
 /***/ (function(module) {
 
 module.exports = require("child_process");
-
-/***/ }),
-
-/***/ 145:
-/***/ (function(module, __unusedexports, __webpack_require__) {
-
-"use strict";
-
-const pump = __webpack_require__(284);
-const bufferStream = __webpack_require__(966);
-
-class MaxBufferError extends Error {
-	constructor() {
-		super('maxBuffer exceeded');
-		this.name = 'MaxBufferError';
-	}
-}
-
-async function getStream(inputStream, options) {
-	if (!inputStream) {
-		return Promise.reject(new Error('Expected a stream'));
-	}
-
-	options = {
-		maxBuffer: Infinity,
-		...options
-	};
-
-	const {maxBuffer} = options;
-
-	let stream;
-	await new Promise((resolve, reject) => {
-		const rejectPromise = error => {
-			if (error) { // A null check
-				error.bufferedData = stream.getBufferedValue();
-			}
-
-			reject(error);
-		};
-
-		stream = pump(inputStream, bufferStream(options), error => {
-			if (error) {
-				rejectPromise(error);
-				return;
-			}
-
-			resolve();
-		});
-
-		stream.on('data', () => {
-			if (stream.getBufferedLength() > maxBuffer) {
-				rejectPromise(new MaxBufferError());
-			}
-		});
-	});
-
-	return stream.getBufferedValue();
-}
-
-module.exports = getStream;
-// TODO: Remove this for the next major release
-module.exports.default = getStream;
-module.exports.buffer = (stream, options) => getStream(stream, {...options, encoding: 'buffer'});
-module.exports.array = (stream, options) => getStream(stream, {...options, array: true});
-module.exports.MaxBufferError = MaxBufferError;
-
 
 /***/ }),
 
@@ -5161,18 +5442,18 @@ exports.decode = function (buf, filenameEncoding) {
   if (typeflag === 0 && name && name[name.length - 1] === '/') typeflag = 5
 
   return {
-    name: name,
-    mode: mode,
-    uid: uid,
-    gid: gid,
-    size: size,
+    name,
+    mode,
+    uid,
+    gid,
+    size,
     mtime: new Date(1000 * mtime),
-    type: type,
-    linkname: linkname,
-    uname: uname,
-    gname: gname,
-    devmajor: devmajor,
-    devminor: devminor
+    type,
+    linkname,
+    uname,
+    gname,
+    devmajor,
+    devminor
   }
 }
 
@@ -5366,7 +5647,7 @@ const Input_1 = __webpack_require__(572);
 const Tracing_1 = __webpack_require__(257);
 const helper_1 = __webpack_require__(248);
 const Coverage_1 = __webpack_require__(24);
-const Worker_1 = __webpack_require__(128);
+const WebWorker_1 = __webpack_require__(544);
 const JSHandle_1 = __webpack_require__(542);
 const Accessibility_1 = __webpack_require__(767);
 const TimeoutSettings_1 = __webpack_require__(148);
@@ -5386,6 +5667,15 @@ const paperFormats = {
     a5: { width: 5.83, height: 8.27 },
     a6: { width: 4.13, height: 5.83 },
 };
+var VisionDeficiency;
+(function (VisionDeficiency) {
+    VisionDeficiency["none"] = "none";
+    VisionDeficiency["achromatopsia"] = "achromatopsia";
+    VisionDeficiency["blurredVision"] = "blurredVision";
+    VisionDeficiency["deuteranopia"] = "deuteranopia";
+    VisionDeficiency["protanopia"] = "protanopia";
+    VisionDeficiency["tritanopia"] = "tritanopia";
+})(VisionDeficiency || (VisionDeficiency = {}));
 class ScreenshotTaskQueue {
     constructor() {
         this._chain = Promise.resolve(undefined);
@@ -5429,7 +5719,7 @@ class Page extends EventEmitter {
                 return;
             }
             const session = Connection_1.Connection.fromSession(client).session(event.sessionId);
-            const worker = new Worker_1.Worker(session, event.targetInfo.url, this._addConsoleMessage.bind(this), this._handleException.bind(this));
+            const worker = new WebWorker_1.WebWorker(session, event.targetInfo.url, this._addConsoleMessage.bind(this), this._handleException.bind(this));
             this._workers.set(event.sessionId, worker);
             this.emit(Events_1.Events.Page.WorkerCreated, worker);
         });
@@ -5911,6 +6201,18 @@ class Page extends EventEmitter {
         catch (error) {
             if (error.message.includes('Invalid timezone'))
                 throw new Error(`Invalid timezone ID: ${timezoneId}`);
+            throw error;
+        }
+    }
+    async emulateVisionDeficiency(type) {
+        const visionDeficiencies = new Set(Object.keys(VisionDeficiency));
+        try {
+            helper_1.assert(!type || visionDeficiencies.has(type), `Unsupported vision deficiency: ${type}`);
+            await this._client.send('Emulation.setEmulatedVisionDeficiency', {
+                type: type || 'none',
+            });
+        }
+        catch (error) {
             throw error;
         }
     }
@@ -10508,24 +10810,26 @@ class PerMessageDeflate {
   /**
    * Creates a PerMessageDeflate instance.
    *
-   * @param {Object} options Configuration options
-   * @param {Boolean} options.serverNoContextTakeover Request/accept disabling
-   *     of server context takeover
-   * @param {Boolean} options.clientNoContextTakeover Advertise/acknowledge
-   *     disabling of client context takeover
-   * @param {(Boolean|Number)} options.serverMaxWindowBits Request/confirm the
+   * @param {Object} [options] Configuration options
+   * @param {Boolean} [options.serverNoContextTakeover=false] Request/accept
+   *     disabling of server context takeover
+   * @param {Boolean} [options.clientNoContextTakeover=false] Advertise/
+   *     acknowledge disabling of client context takeover
+   * @param {(Boolean|Number)} [options.serverMaxWindowBits] Request/confirm the
    *     use of a custom server window size
-   * @param {(Boolean|Number)} options.clientMaxWindowBits Advertise support
+   * @param {(Boolean|Number)} [options.clientMaxWindowBits] Advertise support
    *     for, or request, a custom client window size
-   * @param {Object} options.zlibDeflateOptions Options to pass to zlib on deflate
-   * @param {Object} options.zlibInflateOptions Options to pass to zlib on inflate
-   * @param {Number} options.threshold Size (in bytes) below which messages
-   *     should not be compressed
-   * @param {Number} options.concurrencyLimit The number of concurrent calls to
-   *     zlib
-   * @param {Boolean} isServer Create the instance in either server or client
-   *     mode
-   * @param {Number} maxPayload The maximum allowed message length
+   * @param {Object} [options.zlibDeflateOptions] Options to pass to zlib on
+   *     deflate
+   * @param {Object} [options.zlibInflateOptions] Options to pass to zlib on
+   *     inflate
+   * @param {Number} [options.threshold=1024] Size (in bytes) below which
+   *     messages should not be compressed
+   * @param {Number} [options.concurrencyLimit=10] The number of concurrent
+   *     calls to zlib
+   * @param {Boolean} [isServer=false] Create the instance in either server or
+   *     client mode
+   * @param {Number} [maxPayload=0] The maximum allowed message length
    */
   constructor(options, isServer, maxPayload) {
     this._maxPayload = maxPayload | 0;
@@ -11315,11 +11619,11 @@ class Receiver extends Writable {
   /**
    * Creates a Receiver instance.
    *
-   * @param {String} binaryType The type for binary data
-   * @param {Object} extensions An object containing the negotiated extensions
-   * @param {Boolean} isServer Specifies whether to operate in client or server
-   *     mode
-   * @param {Number} maxPayload The maximum allowed message length
+   * @param {String} [binaryType=nodebuffer] The type for binary data
+   * @param {Object} [extensions] An object containing the negotiated extensions
+   * @param {Boolean} [isServer=false] Specifies whether to operate in client or
+   *     server mode
+   * @param {Number} [maxPayload=0] The maximum allowed message length
    */
   constructor(binaryType, extensions, isServer, maxPayload) {
     super();
@@ -11355,6 +11659,7 @@ class Receiver extends Writable {
    * @param {Buffer} chunk The chunk of data to write
    * @param {String} encoding The character encoding of `chunk`
    * @param {Function} cb Callback
+   * @private
    */
   _write(chunk, encoding, cb) {
     if (this._opcode === 0x08 && this._state == GET_INFO) return cb();
@@ -11825,244 +12130,6 @@ if (typeof Object.create === 'function') {
     }
   }
 }
-
-
-/***/ }),
-
-/***/ 317:
-/***/ (function(__unusedmodule, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Request = void 0;
-const helper_1 = __webpack_require__(248);
-class Request {
-    constructor(client, frame, interceptionId, allowInterception, event, redirectChain) {
-        this._failureText = null;
-        this._response = null;
-        this._fromMemoryCache = false;
-        this._interceptionHandled = false;
-        this._headers = {};
-        this._client = client;
-        this._requestId = event.requestId;
-        this._isNavigationRequest =
-            event.requestId === event.loaderId && event.type === 'Document';
-        this._interceptionId = interceptionId;
-        this._allowInterception = allowInterception;
-        this._url = event.request.url;
-        this._resourceType = event.type.toLowerCase();
-        this._method = event.request.method;
-        this._postData = event.request.postData;
-        this._frame = frame;
-        this._redirectChain = redirectChain;
-        for (const key of Object.keys(event.request.headers))
-            this._headers[key.toLowerCase()] = event.request.headers[key];
-    }
-    url() {
-        return this._url;
-    }
-    resourceType() {
-        return this._resourceType;
-    }
-    method() {
-        return this._method;
-    }
-    postData() {
-        return this._postData;
-    }
-    headers() {
-        return this._headers;
-    }
-    response() {
-        return this._response;
-    }
-    frame() {
-        return this._frame;
-    }
-    isNavigationRequest() {
-        return this._isNavigationRequest;
-    }
-    redirectChain() {
-        return this._redirectChain.slice();
-    }
-    /**
-     * @return {?{errorText: string}}
-     */
-    failure() {
-        if (!this._failureText)
-            return null;
-        return {
-            errorText: this._failureText,
-        };
-    }
-    async continue(overrides = {}) {
-        // Request interception is not supported for data: urls.
-        if (this._url.startsWith('data:'))
-            return;
-        helper_1.assert(this._allowInterception, 'Request Interception is not enabled!');
-        helper_1.assert(!this._interceptionHandled, 'Request is already handled!');
-        const { url, method, postData, headers } = overrides;
-        this._interceptionHandled = true;
-        await this._client
-            .send('Fetch.continueRequest', {
-            requestId: this._interceptionId,
-            url,
-            method,
-            postData,
-            headers: headers ? headersArray(headers) : undefined,
-        })
-            .catch((error) => {
-            // In certain cases, protocol will return error if the request was already canceled
-            // or the page was closed. We should tolerate these errors.
-            helper_1.debugError(error);
-        });
-    }
-    async respond(response) {
-        // Mocking responses for dataURL requests is not currently supported.
-        if (this._url.startsWith('data:'))
-            return;
-        helper_1.assert(this._allowInterception, 'Request Interception is not enabled!');
-        helper_1.assert(!this._interceptionHandled, 'Request is already handled!');
-        this._interceptionHandled = true;
-        const responseBody = response.body && helper_1.helper.isString(response.body)
-            ? Buffer.from(response.body)
-            : response.body || null;
-        const responseHeaders = {};
-        if (response.headers) {
-            for (const header of Object.keys(response.headers))
-                responseHeaders[header.toLowerCase()] = response.headers[header];
-        }
-        if (response.contentType)
-            responseHeaders['content-type'] = response.contentType;
-        if (responseBody && !('content-length' in responseHeaders))
-            responseHeaders['content-length'] = String(Buffer.byteLength(responseBody));
-        await this._client
-            .send('Fetch.fulfillRequest', {
-            requestId: this._interceptionId,
-            responseCode: response.status || 200,
-            responsePhrase: STATUS_TEXTS[response.status || 200],
-            responseHeaders: headersArray(responseHeaders),
-            body: responseBody ? responseBody.toString('base64') : undefined,
-        })
-            .catch((error) => {
-            // In certain cases, protocol will return error if the request was already canceled
-            // or the page was closed. We should tolerate these errors.
-            helper_1.debugError(error);
-        });
-    }
-    async abort(errorCode = 'failed') {
-        // Request interception is not supported for data: urls.
-        if (this._url.startsWith('data:'))
-            return;
-        const errorReason = errorReasons[errorCode];
-        helper_1.assert(errorReason, 'Unknown error code: ' + errorCode);
-        helper_1.assert(this._allowInterception, 'Request Interception is not enabled!');
-        helper_1.assert(!this._interceptionHandled, 'Request is already handled!');
-        this._interceptionHandled = true;
-        await this._client
-            .send('Fetch.failRequest', {
-            requestId: this._interceptionId,
-            errorReason,
-        })
-            .catch((error) => {
-            // In certain cases, protocol will return error if the request was already canceled
-            // or the page was closed. We should tolerate these errors.
-            helper_1.debugError(error);
-        });
-    }
-}
-exports.Request = Request;
-const errorReasons = {
-    aborted: 'Aborted',
-    accessdenied: 'AccessDenied',
-    addressunreachable: 'AddressUnreachable',
-    blockedbyclient: 'BlockedByClient',
-    blockedbyresponse: 'BlockedByResponse',
-    connectionaborted: 'ConnectionAborted',
-    connectionclosed: 'ConnectionClosed',
-    connectionfailed: 'ConnectionFailed',
-    connectionrefused: 'ConnectionRefused',
-    connectionreset: 'ConnectionReset',
-    internetdisconnected: 'InternetDisconnected',
-    namenotresolved: 'NameNotResolved',
-    timedout: 'TimedOut',
-    failed: 'Failed',
-};
-function headersArray(headers) {
-    const result = [];
-    for (const name in headers) {
-        if (!Object.is(headers[name], undefined))
-            result.push({ name, value: headers[name] + '' });
-    }
-    return result;
-}
-// List taken from https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml with extra 306 and 418 codes.
-const STATUS_TEXTS = {
-    '100': 'Continue',
-    '101': 'Switching Protocols',
-    '102': 'Processing',
-    '103': 'Early Hints',
-    '200': 'OK',
-    '201': 'Created',
-    '202': 'Accepted',
-    '203': 'Non-Authoritative Information',
-    '204': 'No Content',
-    '205': 'Reset Content',
-    '206': 'Partial Content',
-    '207': 'Multi-Status',
-    '208': 'Already Reported',
-    '226': 'IM Used',
-    '300': 'Multiple Choices',
-    '301': 'Moved Permanently',
-    '302': 'Found',
-    '303': 'See Other',
-    '304': 'Not Modified',
-    '305': 'Use Proxy',
-    '306': 'Switch Proxy',
-    '307': 'Temporary Redirect',
-    '308': 'Permanent Redirect',
-    '400': 'Bad Request',
-    '401': 'Unauthorized',
-    '402': 'Payment Required',
-    '403': 'Forbidden',
-    '404': 'Not Found',
-    '405': 'Method Not Allowed',
-    '406': 'Not Acceptable',
-    '407': 'Proxy Authentication Required',
-    '408': 'Request Timeout',
-    '409': 'Conflict',
-    '410': 'Gone',
-    '411': 'Length Required',
-    '412': 'Precondition Failed',
-    '413': 'Payload Too Large',
-    '414': 'URI Too Long',
-    '415': 'Unsupported Media Type',
-    '416': 'Range Not Satisfiable',
-    '417': 'Expectation Failed',
-    '418': "I'm a teapot",
-    '421': 'Misdirected Request',
-    '422': 'Unprocessable Entity',
-    '423': 'Locked',
-    '424': 'Failed Dependency',
-    '425': 'Too Early',
-    '426': 'Upgrade Required',
-    '428': 'Precondition Required',
-    '429': 'Too Many Requests',
-    '431': 'Request Header Fields Too Large',
-    '451': 'Unavailable For Legal Reasons',
-    '500': 'Internal Server Error',
-    '501': 'Not Implemented',
-    '502': 'Bad Gateway',
-    '503': 'Service Unavailable',
-    '504': 'Gateway Timeout',
-    '505': 'HTTP Version Not Supported',
-    '506': 'Variant Also Negotiates',
-    '507': 'Insufficient Storage',
-    '508': 'Loop Detected',
-    '510': 'Not Extended',
-    '511': 'Network Authentication Required',
-};
 
 
 /***/ }),
@@ -15110,6 +15177,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const os = __importStar(__webpack_require__(87));
+const utils_1 = __webpack_require__(82);
 /**
  * Commands
  *
@@ -15163,28 +15231,14 @@ class Command {
         return cmdStr;
     }
 }
-/**
- * Sanitizes an input into a string so it can be passed into issueCommand safely
- * @param input input to sanitize into a string
- */
-function toCommandValue(input) {
-    if (input === null || input === undefined) {
-        return '';
-    }
-    else if (typeof input === 'string' || input instanceof String) {
-        return input;
-    }
-    return JSON.stringify(input);
-}
-exports.toCommandValue = toCommandValue;
 function escapeData(s) {
-    return toCommandValue(s)
+    return utils_1.toCommandValue(s)
         .replace(/%/g, '%25')
         .replace(/\r/g, '%0D')
         .replace(/\n/g, '%0A');
 }
 function escapeProperty(s) {
-    return toCommandValue(s)
+    return utils_1.toCommandValue(s)
         .replace(/%/g, '%25')
         .replace(/\r/g, '%0D')
         .replace(/\n/g, '%0A')
@@ -15897,7 +15951,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Target = void 0;
 const Events_1 = __webpack_require__(543);
 const Page_1 = __webpack_require__(212);
-const Worker_1 = __webpack_require__(128);
+const WebWorker_1 = __webpack_require__(544);
 class Target {
     constructor(targetInfo, browserContext, sessionFactory, ignoreHTTPSErrors, defaultViewport) {
         this._targetInfo = targetInfo;
@@ -15908,7 +15962,7 @@ class Target {
         this._defaultViewport = defaultViewport;
         /** @type {?Promise<!Puppeteer.Page>} */
         this._pagePromise = null;
-        /** @type {?Promise<!PuppeteerWorker>} */
+        /** @type {?Promise<!WebWorker>} */
         this._workerPromise = null;
         this._initializedPromise = new Promise((fulfill) => (this._initializedCallback = fulfill)).then(async (success) => {
             if (!success)
@@ -15934,7 +15988,8 @@ class Target {
     }
     async page() {
         if ((this._targetInfo.type === 'page' ||
-            this._targetInfo.type === 'background_page') &&
+            this._targetInfo.type === 'background_page' ||
+            this._targetInfo.type === 'webview') &&
             !this._pagePromise) {
             this._pagePromise = this._sessionFactory().then((client) => Page_1.Page.create(client, this, this._ignoreHTTPSErrors, this._defaultViewport));
         }
@@ -15946,7 +16001,7 @@ class Target {
             return null;
         if (!this._workerPromise) {
             // TODO(einbinder): Make workers send their console logs.
-            this._workerPromise = this._sessionFactory().then((client) => new Worker_1.Worker(client, this._targetInfo.url, () => { } /* consoleAPICalled */, () => { } /* exceptionThrown */));
+            this._workerPromise = this._sessionFactory().then((client) => new WebWorker_1.WebWorker(client, this._targetInfo.url, () => { } /* consoleAPICalled */, () => { } /* exceptionThrown */));
         }
         return this._workerPromise;
     }
@@ -15959,7 +16014,8 @@ class Target {
             type === 'background_page' ||
             type === 'service_worker' ||
             type === 'shared_worker' ||
-            type === 'browser')
+            type === 'browser' ||
+            type === 'webview')
             return type;
         return 'other';
     }
@@ -16028,6 +16084,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const command_1 = __webpack_require__(431);
+const file_command_1 = __webpack_require__(102);
+const utils_1 = __webpack_require__(82);
 const os = __importStar(__webpack_require__(87));
 const path = __importStar(__webpack_require__(622));
 /**
@@ -16054,9 +16112,17 @@ var ExitCode;
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function exportVariable(name, val) {
-    const convertedVal = command_1.toCommandValue(val);
+    const convertedVal = utils_1.toCommandValue(val);
     process.env[name] = convertedVal;
-    command_1.issueCommand('set-env', { name }, convertedVal);
+    const filePath = process.env['GITHUB_ENV'] || '';
+    if (filePath) {
+        const delimiter = '_GitHubActionsFileCommandDelimeter_';
+        const commandValue = `${name}<<${delimiter}${os.EOL}${convertedVal}${os.EOL}${delimiter}`;
+        file_command_1.issueCommand('ENV', commandValue);
+    }
+    else {
+        command_1.issueCommand('set-env', { name }, convertedVal);
+    }
 }
 exports.exportVariable = exportVariable;
 /**
@@ -16072,7 +16138,13 @@ exports.setSecret = setSecret;
  * @param inputPath
  */
 function addPath(inputPath) {
-    command_1.issueCommand('add-path', {}, inputPath);
+    const filePath = process.env['GITHUB_PATH'] || '';
+    if (filePath) {
+        file_command_1.issueCommand('PATH', inputPath);
+    }
+    else {
+        command_1.issueCommand('add-path', {}, inputPath);
+    }
     process.env['PATH'] = `${inputPath}${path.delimiter}${process.env['PATH']}`;
 }
 exports.addPath = addPath;
@@ -16251,15 +16323,11 @@ function setup(env) {
 	createDebug.enable = enable;
 	createDebug.enabled = enabled;
 	createDebug.humanize = __webpack_require__(761);
+	createDebug.destroy = destroy;
 
 	Object.keys(env).forEach(key => {
 		createDebug[key] = env[key];
 	});
-
-	/**
-	* Active `debug` instances.
-	*/
-	createDebug.instances = [];
 
 	/**
 	* The currently active debug mode names, and names to skip.
@@ -16302,6 +16370,7 @@ function setup(env) {
 	*/
 	function createDebug(namespace) {
 		let prevTime;
+		let enableOverride = null;
 
 		function debug(...args) {
 			// Disabled?
@@ -16331,7 +16400,7 @@ function setup(env) {
 			args[0] = args[0].replace(/%([a-zA-Z%])/g, (match, format) => {
 				// If we encounter an escaped % then don't increase the array index
 				if (match === '%%') {
-					return match;
+					return '%';
 				}
 				index++;
 				const formatter = createDebug.formatters[format];
@@ -16354,31 +16423,26 @@ function setup(env) {
 		}
 
 		debug.namespace = namespace;
-		debug.enabled = createDebug.enabled(namespace);
 		debug.useColors = createDebug.useColors();
-		debug.color = selectColor(namespace);
-		debug.destroy = destroy;
+		debug.color = createDebug.selectColor(namespace);
 		debug.extend = extend;
-		// Debug.formatArgs = formatArgs;
-		// debug.rawLog = rawLog;
+		debug.destroy = createDebug.destroy; // XXX Temporary. Will be removed in the next major release.
 
-		// env-specific initialization logic for debug instances
+		Object.defineProperty(debug, 'enabled', {
+			enumerable: true,
+			configurable: false,
+			get: () => enableOverride === null ? createDebug.enabled(namespace) : enableOverride,
+			set: v => {
+				enableOverride = v;
+			}
+		});
+
+		// Env-specific initialization logic for debug instances
 		if (typeof createDebug.init === 'function') {
 			createDebug.init(debug);
 		}
 
-		createDebug.instances.push(debug);
-
 		return debug;
-	}
-
-	function destroy() {
-		const index = createDebug.instances.indexOf(this);
-		if (index !== -1) {
-			createDebug.instances.splice(index, 1);
-			return true;
-		}
-		return false;
 	}
 
 	function extend(namespace, delimiter) {
@@ -16417,11 +16481,6 @@ function setup(env) {
 			} else {
 				createDebug.names.push(new RegExp('^' + namespaces + '$'));
 			}
-		}
-
-		for (i = 0; i < createDebug.instances.length; i++) {
-			const instance = createDebug.instances[i];
-			instance.enabled = createDebug.enabled(instance.namespace);
 		}
 	}
 
@@ -16495,6 +16554,14 @@ function setup(env) {
 			return val.stack || val.message;
 		}
 		return val;
+	}
+
+	/**
+	* XXX DO NOT USE. This is a temporary stub function.
+	* XXX It WILL be removed in the next major release.
+	*/
+	function destroy() {
+		console.warn('Instance method `debug.destroy()` is deprecated and no longer does anything. It will be removed in the next major version of `debug`.');
 	}
 
 	createDebug.enable(createDebug.load());
@@ -16914,6 +16981,74 @@ exports.keyDefinitions = {
     },
     VolumeUp: { keyCode: 183, key: 'VolumeUp', code: 'VolumeUp', location: 4 },
 };
+
+
+/***/ }),
+
+/***/ 507:
+/***/ (function(module, __unusedexports, __webpack_require__) {
+
+"use strict";
+
+const {constants: BufferConstants} = __webpack_require__(293);
+const pump = __webpack_require__(284);
+const bufferStream = __webpack_require__(53);
+
+class MaxBufferError extends Error {
+	constructor() {
+		super('maxBuffer exceeded');
+		this.name = 'MaxBufferError';
+	}
+}
+
+async function getStream(inputStream, options) {
+	if (!inputStream) {
+		return Promise.reject(new Error('Expected a stream'));
+	}
+
+	options = {
+		maxBuffer: Infinity,
+		...options
+	};
+
+	const {maxBuffer} = options;
+
+	let stream;
+	await new Promise((resolve, reject) => {
+		const rejectPromise = error => {
+			// Don't retrieve an oversized buffer.
+			if (error && stream.getBufferedLength() <= BufferConstants.MAX_LENGTH) {
+				error.bufferedData = stream.getBufferedValue();
+			}
+
+			reject(error);
+		};
+
+		stream = pump(inputStream, bufferStream(options), error => {
+			if (error) {
+				rejectPromise(error);
+				return;
+			}
+
+			resolve();
+		});
+
+		stream.on('data', () => {
+			if (stream.getBufferedLength() > maxBuffer) {
+				rejectPromise(new MaxBufferError());
+			}
+		});
+	});
+
+	return stream.getBufferedValue();
+}
+
+module.exports = getStream;
+// TODO: Remove this for the next major release
+module.exports.default = getStream;
+module.exports.buffer = (stream, options) => getStream(stream, {...options, encoding: 'buffer'});
+module.exports.array = (stream, options) => getStream(stream, {...options, array: true});
+module.exports.MaxBufferError = MaxBufferError;
 
 
 /***/ }),
@@ -18054,6 +18189,68 @@ exports.Events = {
 
 /***/ }),
 
+/***/ 544:
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.WebWorker = void 0;
+/**
+ * Copyright 2018 Google Inc. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+const events_1 = __webpack_require__(614);
+const helper_1 = __webpack_require__(248);
+const ExecutionContext_1 = __webpack_require__(577);
+const JSHandle_1 = __webpack_require__(542);
+class WebWorker extends events_1.EventEmitter {
+    constructor(client, url, consoleAPICalled, exceptionThrown) {
+        super();
+        this._client = client;
+        this._url = url;
+        this._executionContextPromise = new Promise((x) => (this._executionContextCallback = x));
+        let jsHandleFactory;
+        this._client.once('Runtime.executionContextCreated', async (event) => {
+            // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+            jsHandleFactory = (remoteObject) => new JSHandle_1.JSHandle(executionContext, client, remoteObject);
+            const executionContext = new ExecutionContext_1.ExecutionContext(client, event.context, null);
+            this._executionContextCallback(executionContext);
+        });
+        // This might fail if the target is closed before we recieve all execution contexts.
+        this._client.send('Runtime.enable', {}).catch(helper_1.debugError);
+        this._client.on('Runtime.consoleAPICalled', (event) => consoleAPICalled(event.type, event.args.map(jsHandleFactory), event.stackTrace));
+        this._client.on('Runtime.exceptionThrown', (exception) => exceptionThrown(exception.exceptionDetails));
+    }
+    url() {
+        return this._url;
+    }
+    async executionContext() {
+        return this._executionContextPromise;
+    }
+    async evaluate(pageFunction, ...args) {
+        return (await this._executionContextPromise).evaluate(pageFunction, ...args);
+    }
+    async evaluateHandle(pageFunction, ...args) {
+        return (await this._executionContextPromise).evaluateHandle(pageFunction, ...args);
+    }
+}
+exports.WebWorker = WebWorker;
+
+
+/***/ }),
+
 /***/ 562:
 /***/ (function(__unusedmodule, exports, __webpack_require__) {
 
@@ -19108,21 +19305,22 @@ class WebSocketServer extends EventEmitter {
    * Create a `WebSocketServer` instance.
    *
    * @param {Object} options Configuration options
-   * @param {Number} options.backlog The maximum length of the queue of pending
-   *     connections
-   * @param {Boolean} options.clientTracking Specifies whether or not to track
-   *     clients
-   * @param {Function} options.handleProtocols A hook to handle protocols
-   * @param {String} options.host The hostname where to bind the server
-   * @param {Number} options.maxPayload The maximum allowed message size
-   * @param {Boolean} options.noServer Enable no server mode
-   * @param {String} options.path Accept only connections matching this path
-   * @param {(Boolean|Object)} options.perMessageDeflate Enable/disable
+   * @param {Number} [options.backlog=511] The maximum length of the queue of
+   *     pending connections
+   * @param {Boolean} [options.clientTracking=true] Specifies whether or not to
+   *     track clients
+   * @param {Function} [options.handleProtocols] A hook to handle protocols
+   * @param {String} [options.host] The hostname where to bind the server
+   * @param {Number} [options.maxPayload=104857600] The maximum allowed message
+   *     size
+   * @param {Boolean} [options.noServer=false] Enable no server mode
+   * @param {String} [options.path] Accept only connections matching this path
+   * @param {(Boolean|Object)} [options.perMessageDeflate=false] Enable/disable
    *     permessage-deflate
-   * @param {Number} options.port The port where to bind the server
-   * @param {http.Server} options.server A pre-created HTTP/S server to use
-   * @param {Function} options.verifyClient A hook to reject connections
-   * @param {Function} callback A listener for the `listening` event
+   * @param {Number} [options.port] The port where to bind the server
+   * @param {http.Server} [options.server] A pre-created HTTP/S server to use
+   * @param {Function} [options.verifyClient] A hook to reject connections
+   * @param {Function} [callback] A listener for the `listening` event
    */
   constructor(options, callback) {
     super();
@@ -19169,13 +19367,13 @@ class WebSocketServer extends EventEmitter {
     }
 
     if (this._server) {
+      const emitConnection = this.emit.bind(this, 'connection');
+
       this._removeListeners = addListeners(this._server, {
         listening: this.emit.bind(this, 'listening'),
         error: this.emit.bind(this, 'error'),
         upgrade: (req, socket, head) => {
-          this.handleUpgrade(req, socket, head, (ws) => {
-            this.emit('connection', ws, req);
-          });
+          this.handleUpgrade(req, socket, head, emitConnection);
         }
       });
     }
@@ -19206,7 +19404,7 @@ class WebSocketServer extends EventEmitter {
   /**
    * Close the server.
    *
-   * @param {Function} cb Callback
+   * @param {Function} [cb] Callback
    * @public
    */
   close(cb) {
@@ -19385,7 +19583,7 @@ class WebSocketServer extends EventEmitter {
 
       if (protocol) {
         headers.push(`Sec-WebSocket-Protocol: ${protocol}`);
-        ws.protocol = protocol;
+        ws._protocol = protocol;
       }
     }
 
@@ -19413,7 +19611,7 @@ class WebSocketServer extends EventEmitter {
       ws.on('close', () => this.clients.delete(ws));
     }
 
-    cb(ws);
+    cb(ws, req);
   }
 }
 
@@ -19425,7 +19623,8 @@ module.exports = WebSocketServer;
  *
  * @param {EventEmitter} server The event emitter
  * @param {Object.<String, Function>} map The listeners to add
- * @return {Function} A function that will remove the added listeners when called
+ * @return {Function} A function that will remove the added listeners when
+ *     called
  * @private
  */
 function addListeners(server, map) {
@@ -19497,6 +19696,101 @@ function abortHandshake(socket, code, message, headers) {
 /***/ (function(module) {
 
 module.exports = require("events");
+
+/***/ }),
+
+/***/ 617:
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.HTTPResponse = void 0;
+const SecurityDetails_1 = __webpack_require__(228);
+class HTTPResponse {
+    constructor(client, request, responsePayload) {
+        this._contentPromise = null;
+        this._headers = {};
+        this._client = client;
+        this._request = request;
+        this._bodyLoadedPromise = new Promise((fulfill) => {
+            this._bodyLoadedPromiseFulfill = fulfill;
+        });
+        this._remoteAddress = {
+            ip: responsePayload.remoteIPAddress,
+            port: responsePayload.remotePort,
+        };
+        this._status = responsePayload.status;
+        this._statusText = responsePayload.statusText;
+        this._url = request.url();
+        this._fromDiskCache = !!responsePayload.fromDiskCache;
+        this._fromServiceWorker = !!responsePayload.fromServiceWorker;
+        for (const key of Object.keys(responsePayload.headers))
+            this._headers[key.toLowerCase()] = responsePayload.headers[key];
+        this._securityDetails = responsePayload.securityDetails
+            ? new SecurityDetails_1.SecurityDetails(responsePayload.securityDetails)
+            : null;
+    }
+    _resolveBody(err) {
+        return this._bodyLoadedPromiseFulfill(err);
+    }
+    remoteAddress() {
+        return this._remoteAddress;
+    }
+    url() {
+        return this._url;
+    }
+    ok() {
+        return this._status === 0 || (this._status >= 200 && this._status <= 299);
+    }
+    status() {
+        return this._status;
+    }
+    statusText() {
+        return this._statusText;
+    }
+    headers() {
+        return this._headers;
+    }
+    securityDetails() {
+        return this._securityDetails;
+    }
+    buffer() {
+        if (!this._contentPromise) {
+            this._contentPromise = this._bodyLoadedPromise.then(async (error) => {
+                if (error)
+                    throw error;
+                const response = await this._client.send('Network.getResponseBody', {
+                    requestId: this._request._requestId,
+                });
+                return Buffer.from(response.body, response.base64Encoded ? 'base64' : 'utf8');
+            });
+        }
+        return this._contentPromise;
+    }
+    async text() {
+        const content = await this.buffer();
+        return content.toString('utf8');
+    }
+    async json() {
+        const content = await this.text();
+        return JSON.parse(content);
+    }
+    request() {
+        return this._request;
+    }
+    fromCache() {
+        return this._fromDiskCache || this._request._fromMemoryCache;
+    }
+    fromServiceWorker() {
+        return this._fromServiceWorker;
+    }
+    frame() {
+        return this._request.frame();
+    }
+}
+exports.HTTPResponse = HTTPResponse;
+
 
 /***/ }),
 
@@ -19594,7 +19888,7 @@ module.exports = require("net");
 const debug = __webpack_require__(784)('extract-zip')
 // eslint-disable-next-line node/no-unsupported-features/node-builtins
 const { createWriteStream, promises: fs } = __webpack_require__(747)
-const getStream = __webpack_require__(145)
+const getStream = __webpack_require__(507)
 const path = __webpack_require__(622)
 const { promisify } = __webpack_require__(669)
 const stream = __webpack_require__(413)
@@ -19701,10 +19995,7 @@ class Extractor {
 
     debug('extracting entry', { filename: entry.fileName, isDir: isDir, isSymlink: symlink })
 
-    // reverse umask first (~)
-    const umask = ~process.umask()
-    // & with processes umask to override invalid perms
-    const procMode = this.getExtractedMode(mode, isDir) & umask
+    const procMode = this.getExtractedMode(mode, isDir) & 0o777
 
     // always ensure folders are created
     const destDir = isDir ? dest : path.dirname(dest)
@@ -19787,7 +20078,8 @@ class Event {
    * Create a new `Event`.
    *
    * @param {String} type The name of the event
-   * @param {Object} target A reference to the target to which the event was dispatched
+   * @param {Object} target A reference to the target to which the event was
+   *     dispatched
    */
   constructor(type, target) {
     this.target = target;
@@ -19806,7 +20098,8 @@ class MessageEvent extends Event {
    * Create a new `MessageEvent`.
    *
    * @param {(String|Buffer|ArrayBuffer|Buffer[])} data The received data
-   * @param {WebSocket} target A reference to the target to which the event was dispatched
+   * @param {WebSocket} target A reference to the target to which the event was
+   *     dispatched
    */
   constructor(data, target) {
     super('message', target);
@@ -19825,9 +20118,12 @@ class CloseEvent extends Event {
   /**
    * Create a new `CloseEvent`.
    *
-   * @param {Number} code The status code explaining why the connection is being closed
-   * @param {String} reason A human-readable string explaining why the connection is closing
-   * @param {WebSocket} target A reference to the target to which the event was dispatched
+   * @param {Number} code The status code explaining why the connection is being
+   *     closed
+   * @param {String} reason A human-readable string explaining why the
+   *     connection is closing
+   * @param {WebSocket} target A reference to the target to which the event was
+   *     dispatched
    */
   constructor(code, reason, target) {
     super('close', target);
@@ -19848,7 +20144,8 @@ class OpenEvent extends Event {
   /**
    * Create a new `OpenEvent`.
    *
-   * @param {WebSocket} target A reference to the target to which the event was dispatched
+   * @param {WebSocket} target A reference to the target to which the event was
+   *     dispatched
    */
   constructor(target) {
     super('open', target);
@@ -19866,7 +20163,8 @@ class ErrorEvent extends Event {
    * Create a new `ErrorEvent`.
    *
    * @param {Object} error The error that generated this event
-   * @param {WebSocket} target A reference to the target to which the event was dispatched
+   * @param {WebSocket} target A reference to the target to which the event was
+   *     dispatched
    */
   constructor(error, target) {
     super('error', target);
@@ -19888,11 +20186,11 @@ const EventTarget = {
    *
    * @param {String} type A string representing the event type to listen for
    * @param {Function} listener The listener to add
-   * @param {Object} options An options object specifies characteristics about
+   * @param {Object} [options] An options object specifies characteristics about
    *     the event listener
-   * @param {Boolean} options.once A `Boolean`` indicating that the listener
-   *     should be invoked at most once after being added. If `true`, the
-   *     listener would be automatically removed when invoked.
+   * @param {Boolean} [options.once=false] A `Boolean`` indicating that the
+   *     listener should be invoked at most once after being added. If `true`,
+   *     the listener would be automatically removed when invoked.
    * @public
    */
   addEventListener(type, listener, options) {
@@ -19973,8 +20271,8 @@ class Limiter {
   /**
    * Creates a new `Limiter`.
    *
-   * @param {Number} concurrency The maximum number of jobs allowed to run
-   *     concurrently
+   * @param {Number} [concurrency=Infinity] The maximum number of jobs allowed
+   *     to run concurrently
    */
   constructor(concurrency) {
     this[kDone] = () => {
@@ -19989,6 +20287,7 @@ class Limiter {
   /**
    * Adds a job to the queue.
    *
+   * @param {Function} job The job to run
    * @public
    */
   add(job) {
@@ -20165,18 +20464,22 @@ BufferList.prototype.copy = function copy (dst, dstStart, srcStart, srcEnd) {
 
     if (bytes > l) {
       this._bufs[i].copy(dst, bufoff, start)
+      bufoff += l
     } else {
       this._bufs[i].copy(dst, bufoff, start, start + bytes)
+      bufoff += l
       break
     }
 
-    bufoff += l
     bytes -= l
 
     if (start) {
       start = 0
     }
   }
+
+  // safeguard so that we don't return uninitialized memory
+  if (dst.length > bufoff) return dst.slice(0, bufoff)
 
   return dst
 }
@@ -20219,6 +20522,11 @@ BufferList.prototype.toString = function toString (encoding, start, end) {
 }
 
 BufferList.prototype.consume = function consume (bytes) {
+  // first, normalize the argument, in accordance with how Buffer does it
+  bytes = Math.trunc(bytes)
+  // do nothing if not a positive number
+  if (Number.isNaN(bytes) || bytes <= 0) return this
+
   while (this._bufs.length) {
     if (bytes >= this._bufs[0].length) {
       bytes -= this._bufs[0].length
@@ -20605,7 +20913,7 @@ var mixinPax = function (header, pax) {
 var Source = function (self, offset) {
   this._parent = self
   this.offset = offset
-  PassThrough.call(this)
+  PassThrough.call(this, { autoDestroy: false })
 }
 
 util.inherits(Source, PassThrough)
@@ -21121,14 +21429,14 @@ module.exports = {
     Mouse: __webpack_require__(572).Mouse,
     Page: __webpack_require__(212).Page,
     Puppeteer: __webpack_require__(214).Puppeteer,
-    Request: __webpack_require__(317).Request,
-    Response: __webpack_require__(753).Response,
+    HTTPRequest: __webpack_require__(104).HTTPRequest,
+    HTTPResponse: __webpack_require__(617).HTTPResponse,
     SecurityDetails: __webpack_require__(228).SecurityDetails,
     Target: __webpack_require__(453).Target,
     TimeoutError: __webpack_require__(420).TimeoutError,
     Touchscreen: __webpack_require__(572).Touchscreen,
     Tracing: __webpack_require__(257).Tracing,
-    Worker: __webpack_require__(128).Worker,
+    WebWorker: __webpack_require__(544).WebWorker,
 };
 
 
@@ -21266,6 +21574,7 @@ const puppeteer = __webpack_require__(885);
         const webPageURL = core.getInput('webPageURL');
         const outputFile = core.getInput('outputFile');
         const usePuppeteer = core.getInput('usePuppeteer');
+        const useScreen = core.getInput('useScreen');
         console.log(`Starting PDF generation for ${webPageURL}`);
         if (usePuppeteer) {
             const pdfDefaults = {
@@ -21283,7 +21592,9 @@ const puppeteer = __webpack_require__(885);
             await daPage.goto(webPageURL, {
                 waitUntil: "networkidle0",
             })
-
+            if (useScreen) {
+                await daPage.emulateMediaType('screen');
+            }
             await daPage.pdf(pdfOpts)
             await browser.close()
 
@@ -21308,101 +21619,6 @@ const puppeteer = __webpack_require__(885);
     }
 })();
 
-
-
-/***/ }),
-
-/***/ 753:
-/***/ (function(__unusedmodule, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Response = void 0;
-const SecurityDetails_1 = __webpack_require__(228);
-class Response {
-    constructor(client, request, responsePayload) {
-        this._contentPromise = null;
-        this._headers = {};
-        this._client = client;
-        this._request = request;
-        this._bodyLoadedPromise = new Promise((fulfill) => {
-            this._bodyLoadedPromiseFulfill = fulfill;
-        });
-        this._remoteAddress = {
-            ip: responsePayload.remoteIPAddress,
-            port: responsePayload.remotePort,
-        };
-        this._status = responsePayload.status;
-        this._statusText = responsePayload.statusText;
-        this._url = request.url();
-        this._fromDiskCache = !!responsePayload.fromDiskCache;
-        this._fromServiceWorker = !!responsePayload.fromServiceWorker;
-        for (const key of Object.keys(responsePayload.headers))
-            this._headers[key.toLowerCase()] = responsePayload.headers[key];
-        this._securityDetails = responsePayload.securityDetails
-            ? new SecurityDetails_1.SecurityDetails(responsePayload.securityDetails)
-            : null;
-    }
-    _resolveBody(err) {
-        return this._bodyLoadedPromiseFulfill(err);
-    }
-    remoteAddress() {
-        return this._remoteAddress;
-    }
-    url() {
-        return this._url;
-    }
-    ok() {
-        return this._status === 0 || (this._status >= 200 && this._status <= 299);
-    }
-    status() {
-        return this._status;
-    }
-    statusText() {
-        return this._statusText;
-    }
-    headers() {
-        return this._headers;
-    }
-    securityDetails() {
-        return this._securityDetails;
-    }
-    buffer() {
-        if (!this._contentPromise) {
-            this._contentPromise = this._bodyLoadedPromise.then(async (error) => {
-                if (error)
-                    throw error;
-                const response = await this._client.send('Network.getResponseBody', {
-                    requestId: this._request._requestId,
-                });
-                return Buffer.from(response.body, response.base64Encoded ? 'base64' : 'utf8');
-            });
-        }
-        return this._contentPromise;
-    }
-    async text() {
-        const content = await this.buffer();
-        return content.toString('utf8');
-    }
-    async json() {
-        const content = await this.text();
-        return JSON.parse(content);
-    }
-    request() {
-        return this._request;
-    }
-    fromCache() {
-        return this._fromDiskCache || this._request._fromMemoryCache;
-    }
-    fromServiceWorker() {
-        return this._fromServiceWorker;
-    }
-    frame() {
-        return this._request.frame();
-    }
-}
-exports.Response = Response;
 
 
 /***/ }),
@@ -23245,8 +23461,8 @@ exports.NetworkManager = void 0;
 const EventEmitter = __webpack_require__(614);
 const helper_1 = __webpack_require__(248);
 const Events_1 = __webpack_require__(543);
-const Request_1 = __webpack_require__(317);
-const Response_1 = __webpack_require__(753);
+const HTTPRequest_1 = __webpack_require__(104);
+const HTTPResponse_1 = __webpack_require__(617);
 class NetworkManager extends EventEmitter {
     constructor(client, ignoreHTTPSErrors, frameManager) {
         super();
@@ -23418,7 +23634,7 @@ class NetworkManager extends EventEmitter {
         const frame = event.frameId
             ? this._frameManager.frame(event.frameId)
             : null;
-        const request = new Request_1.Request(this._client, frame, interceptionId, this._userRequestInterceptionEnabled, event, redirectChain);
+        const request = new HTTPRequest_1.HTTPRequest(this._client, frame, interceptionId, this._userRequestInterceptionEnabled, event, redirectChain);
         this._requestIdToRequest.set(event.requestId, request);
         this.emit(Events_1.Events.NetworkManager.Request, request);
     }
@@ -23428,7 +23644,7 @@ class NetworkManager extends EventEmitter {
             request._fromMemoryCache = true;
     }
     _handleRequestRedirect(request, responsePayload) {
-        const response = new Response_1.Response(this._client, request, responsePayload);
+        const response = new HTTPResponse_1.HTTPResponse(this._client, request, responsePayload);
         request._response = response;
         request._redirectChain.push(request);
         response._resolveBody(new Error('Response body is unavailable for redirect responses'));
@@ -23442,7 +23658,7 @@ class NetworkManager extends EventEmitter {
         // FileUpload sends a response without a matching request.
         if (!request)
             return;
-        const response = new Response_1.Response(this._client, request, event.response);
+        const response = new HTTPResponse_1.HTTPResponse(this._client, request, event.response);
         request._response = response;
         this.emit(Events_1.Events.NetworkManager.Response, response);
     }
@@ -23506,12 +23722,21 @@ if (typeof process === 'undefined' || process.type === 'renderer' || process.bro
  * This is the web browser implementation of `debug()`.
  */
 
-exports.log = log;
 exports.formatArgs = formatArgs;
 exports.save = save;
 exports.load = load;
 exports.useColors = useColors;
 exports.storage = localstorage();
+exports.destroy = (() => {
+	let warned = false;
+
+	return () => {
+		if (!warned) {
+			warned = true;
+			console.warn('Instance method `debug.destroy()` is deprecated and no longer does anything. It will be removed in the next major version of `debug`.');
+		}
+	};
+})();
 
 /**
  * Colors.
@@ -23672,18 +23897,14 @@ function formatArgs(args) {
 }
 
 /**
- * Invokes `console.log()` when available.
- * No-op when `console.log` is not a "function".
+ * Invokes `console.debug()` when available.
+ * No-op when `console.debug` is not a "function".
+ * If `console.debug` is not available, falls back
+ * to `console.log`.
  *
  * @api public
  */
-function log(...args) {
-	// This hackery is required for IE8/9, where
-	// the `console.log` function doesn't have 'apply'
-	return typeof console === 'object' &&
-		console.log &&
-		console.log(...args);
-}
+exports.log = console.debug || console.log || (() => {});
 
 /**
  * Save `namespaces`.
@@ -25373,6 +25594,7 @@ function duplexOnEnd() {
 /**
  * The listener of the `'error'` event.
  *
+ * @param {Error} err The error
  * @private
  */
 function duplexOnError(err) {
@@ -25388,7 +25610,7 @@ function duplexOnError(err) {
  * Wraps a `WebSocket` in a duplex stream.
  *
  * @param {WebSocket} ws The `WebSocket` to wrap
- * @param {Object} options The options for the `Duplex` constructor
+ * @param {Object} [options] The options for the `Duplex` constructor
  * @return {stream.Duplex} The duplex stream
  * @public
  */
@@ -25436,7 +25658,7 @@ function createWebSocketStream(ws, options) {
     duplex.push(null);
   });
 
-  duplex._destroy = function(err, callback) {
+  duplex._destroy = function (err, callback) {
     if (ws.readyState === ws.CLOSED) {
       callback(err);
       process.nextTick(emitClose, duplex);
@@ -25457,7 +25679,7 @@ function createWebSocketStream(ws, options) {
     ws.terminate();
   };
 
-  duplex._final = function(callback) {
+  duplex._final = function (callback) {
     if (ws.readyState === ws.CONNECTING) {
       ws.once('open', function open() {
         duplex._final(callback);
@@ -25485,14 +25707,14 @@ function createWebSocketStream(ws, options) {
     }
   };
 
-  duplex._read = function() {
+  duplex._read = function () {
     if (ws.readyState === ws.OPEN && !resumeOnReceiverDrain) {
       resumeOnReceiverDrain = true;
       if (!ws._receiver._writableState.needDrain) ws._socket.resume();
     }
   };
 
-  duplex._write = function(chunk, encoding, callback) {
+  duplex._write = function (chunk, encoding, callback) {
     if (ws.readyState === ws.CONNECTING) {
       ws.once('open', function open() {
         duplex._write(chunk, encoding, callback);
@@ -25667,70 +25889,10 @@ function pendGo(self, fn) {
 
 /***/ }),
 
-/***/ 966:
-/***/ (function(module, __unusedexports, __webpack_require__) {
-
-"use strict";
-
-const {PassThrough: PassThroughStream} = __webpack_require__(413);
-
-module.exports = options => {
-	options = {...options};
-
-	const {array} = options;
-	let {encoding} = options;
-	const isBuffer = encoding === 'buffer';
-	let objectMode = false;
-
-	if (array) {
-		objectMode = !(encoding || isBuffer);
-	} else {
-		encoding = encoding || 'utf8';
-	}
-
-	if (isBuffer) {
-		encoding = null;
-	}
-
-	const stream = new PassThroughStream({objectMode});
-
-	if (encoding) {
-		stream.setEncoding(encoding);
-	}
-
-	let length = 0;
-	const chunks = [];
-
-	stream.on('data', chunk => {
-		chunks.push(chunk);
-
-		if (objectMode) {
-			length = chunks.length;
-		} else {
-			length += chunk.length;
-		}
-	});
-
-	stream.getBufferedValue = () => {
-		if (array) {
-			return chunks;
-		}
-
-		return isBuffer ? Buffer.concat(chunks, length) : chunks.join('');
-	};
-
-	stream.getBufferedLength = () => length;
-
-	return stream;
-};
-
-
-/***/ }),
-
 /***/ 975:
 /***/ (function(module) {
 
-module.exports = {"_from":"puppeteer","_id":"puppeteer@3.1.0","_inBundle":false,"_integrity":"sha512-jLa9sqdVx0tPnr2FcwAq+8DSjGhSM4YpkwOf3JE22Ycyqm71SW7B5uGfTyMGFoLCmbCozbLZclCjasPb0flTRw==","_location":"/puppeteer","_phantomChildren":{},"_requested":{"type":"tag","registry":true,"raw":"puppeteer","name":"puppeteer","escapedName":"puppeteer","rawSpec":"","saveSpec":null,"fetchSpec":"latest"},"_requiredBy":["#USER","/"],"_resolved":"https://registry.npmjs.org/puppeteer/-/puppeteer-3.1.0.tgz","_shasum":"d44efdc5410809025f38bca2de106c3ae5c85a52","_spec":"puppeteer","_where":"/home/nnieto/Code/web_to_pdf_action","author":{"name":"The Chromium Authors"},"browser":{"./lib/BrowserFetcher.js":false,"ws":"./utils/browser/WebSocket","fs":false,"child_process":false,"rimraf":false,"readline":false},"bugs":{"url":"https://github.com/puppeteer/puppeteer/issues"},"bundleDependencies":false,"dependencies":{"debug":"^4.1.0","extract-zip":"^2.0.0","https-proxy-agent":"^4.0.0","mime":"^2.0.3","progress":"^2.0.1","proxy-from-env":"^1.0.0","rimraf":"^3.0.2","tar-fs":"^2.0.0","unbzip2-stream":"^1.3.3","ws":"^7.2.3"},"deprecated":false,"description":"A high-level API to control headless Chrome over the DevTools Protocol","devDependencies":{"@types/debug":"0.0.31","@types/mime":"^2.0.0","@types/node":"^10.17.14","@types/proxy-from-env":"^1.0.1","@types/rimraf":"^2.0.2","@types/tar-fs":"^1.16.2","@types/ws":"^7.2.4","@typescript-eslint/eslint-plugin":"^2.28.0","@typescript-eslint/parser":"^2.28.0","commonmark":"^0.28.1","cross-env":"^5.0.5","eslint":"^6.8.0","eslint-config-prettier":"^6.11.0","eslint-plugin-mocha":"^6.3.0","eslint-plugin-prettier":"^3.1.3","eslint-plugin-unicorn":"^19.0.1","esprima":"^4.0.0","expect":"^25.2.7","jpeg-js":"^0.3.7","minimist":"^1.2.0","mocha":"^7.1.1","ncp":"^2.0.0","pixelmatch":"^4.0.2","pngjs":"^5.0.0","prettier":"^2.0.5","sinon":"^9.0.2","text-diff":"^1.0.1","typescript":"3.9.2"},"engines":{"node":">=10.18.1"},"files":["lib/","Errors.js","DeviceDescriptors.js","index.js","install.js","typescript-if-required.js"],"homepage":"https://github.com/puppeteer/puppeteer#readme","license":"Apache-2.0","main":"index.js","name":"puppeteer","puppeteer":{"chromium_revision":"756035","firefox_revision":"latest"},"repository":{"type":"git","url":"git+https://github.com/puppeteer/puppeteer.git"},"scripts":{"apply-next-version":"node utils/apply_next_version.js","assert-unit-coverage":"cross-env COVERAGE=1 mocha --config mocha-config/coverage-tests.js","compare-protocol-d-ts":"node utils/protocol-types-generator compare","debug-unit":"node --inspect-brk test/test.js","dev-install":"npm run tsc && node install.js","doc":"node utils/doclint/cli.js","eslint":"([ \"$CI\" = true ] && eslint --ext js --ext ts --quiet -f codeframe . || eslint --ext js --ext ts .)","eslint-fix":"eslint --ext js --ext ts --fix .","funit":"PUPPETEER_PRODUCT=firefox npm run unit","install":"node install.js","lint":"npm run eslint && npm run tsc && npm run doc","prepare":"node typescript-if-required.js","prepublishOnly":"npm run tsc","test":"npm run tsc && npm run lint --silent && npm run coverage && npm run test-doclint && npm run test-types","test-doclint":"mocha --config mocha-config/doclint-tests.js","test-install":"scripts/test-install.sh","test-types":"node utils/doclint/generate_types && tsc --version && tsc -p utils/doclint/generate_types/test/","tsc":"tsc --version && tsc -p . && cp src/protocol.d.ts lib/","unit":"mocha --config mocha-config/puppeteer-unit-tests.js","unit-with-coverage":"cross-env COVERAGE=1 npm run unit","update-protocol-d-ts":"node utils/protocol-types-generator update"},"version":"3.1.0"};
+module.exports = {"_from":"puppeteer@^3.1.0","_id":"puppeteer@3.3.0","_inBundle":false,"_integrity":"sha512-23zNqRltZ1PPoK28uRefWJ/zKb5Jhnzbbwbpcna2o5+QMn17F0khq5s1bdH3vPlyj+J36pubccR8wiNA/VE0Vw==","_location":"/puppeteer","_phantomChildren":{},"_requested":{"type":"range","registry":true,"raw":"puppeteer@^3.1.0","name":"puppeteer","escapedName":"puppeteer","rawSpec":"^3.1.0","saveSpec":null,"fetchSpec":"^3.1.0"},"_requiredBy":["/"],"_resolved":"https://registry.npmjs.org/puppeteer/-/puppeteer-3.3.0.tgz","_shasum":"95839af9fdc0aa4de7e5ee073a4c0adeb9e2d3d7","_spec":"puppeteer@^3.1.0","_where":"/Users/mehdifekih/Projects/web_to_pdf_action","author":{"name":"The Chromium Authors"},"browser":{"./lib/BrowserFetcher.js":false,"ws":"./utils/browser/WebSocket","fs":false,"child_process":false,"rimraf":false,"readline":false},"bugs":{"url":"https://github.com/puppeteer/puppeteer/issues"},"bundleDependencies":false,"dependencies":{"debug":"^4.1.0","extract-zip":"^2.0.0","https-proxy-agent":"^4.0.0","mime":"^2.0.3","progress":"^2.0.1","proxy-from-env":"^1.0.0","rimraf":"^3.0.2","tar-fs":"^2.0.0","unbzip2-stream":"^1.3.3","ws":"^7.2.3"},"deprecated":false,"description":"A high-level API to control headless Chrome over the DevTools Protocol","devDependencies":{"@types/debug":"0.0.31","@types/mime":"^2.0.0","@types/node":"^10.17.14","@types/proxy-from-env":"^1.0.1","@types/rimraf":"^2.0.2","@types/tar-fs":"^1.16.2","@types/ws":"^7.2.4","@typescript-eslint/eslint-plugin":"^2.28.0","@typescript-eslint/parser":"^2.28.0","commonmark":"^0.28.1","cross-env":"^5.0.5","eslint":"^6.8.0","eslint-config-prettier":"^6.11.0","eslint-plugin-mocha":"^6.3.0","eslint-plugin-prettier":"^3.1.3","eslint-plugin-unicorn":"^19.0.1","esprima":"^4.0.0","expect":"^25.2.7","jpeg-js":"^0.3.7","minimist":"^1.2.0","mocha":"^7.1.1","ncp":"^2.0.0","pixelmatch":"^4.0.2","pngjs":"^5.0.0","prettier":"^2.0.5","sinon":"^9.0.2","text-diff":"^1.0.1","typescript":"3.9.2"},"engines":{"node":">=10.18.1"},"files":["lib/","Errors.js","DeviceDescriptors.js","index.js","install.js","typescript-if-required.js"],"homepage":"https://github.com/puppeteer/puppeteer#readme","license":"Apache-2.0","main":"index.js","name":"puppeteer","puppeteer":{"chromium_revision":"756035","firefox_revision":"latest"},"repository":{"type":"git","url":"git+https://github.com/puppeteer/puppeteer.git"},"scripts":{"apply-next-version":"node utils/apply_next_version.js","assert-unit-coverage":"cross-env COVERAGE=1 mocha --config mocha-config/coverage-tests.js","compare-protocol-d-ts":"node utils/protocol-types-generator compare","debug-unit":"node --inspect-brk test/test.js","dev-install":"npm run tsc && node install.js","doc":"node utils/doclint/cli.js","eslint":"([ \"$CI\" = true ] && eslint --ext js --ext ts --quiet -f codeframe . || eslint --ext js --ext ts .)","eslint-fix":"eslint --ext js --ext ts --fix .","funit":"PUPPETEER_PRODUCT=firefox npm run unit","install":"node install.js","lint":"npm run eslint && npm run tsc && npm run doc","prepare":"node typescript-if-required.js","prepublishOnly":"npm run tsc","test":"npm run tsc && npm run lint --silent && npm run coverage && npm run test-doclint && npm run test-types","test-doclint":"mocha --config mocha-config/doclint-tests.js","test-install":"scripts/test-install.sh","tsc":"tsc --version && tsc -p . && cp src/protocol.d.ts lib/","unit":"mocha --config mocha-config/puppeteer-unit-tests.js","unit-with-coverage":"cross-env COVERAGE=1 npm run unit","update-protocol-d-ts":"node utils/protocol-types-generator update"},"version":"3.3.0"};
 
 /***/ }),
 
