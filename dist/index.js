@@ -21581,7 +21581,7 @@ const puppeteer = __webpack_require__(885);
                 'displayHeaderFooter': false,
                 'path': outputFile
             };
-            const pdfOpts = Object.assign({}, core.getInput('pdfOpts'), pdfDefaults);
+            const pdfOpts = Object.assign({}, core.getInput('pdfOptions'), pdfDefaults);
             const pptrOpts = {
                 executablePath: googlePath,
                 args: ['--no-sandbox', '--headless', '--disable-gpu']

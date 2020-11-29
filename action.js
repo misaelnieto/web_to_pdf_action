@@ -15,7 +15,7 @@ const puppeteer = require('puppeteer');
                 'displayHeaderFooter': false,
                 'path': outputFile
             };
-            const pdfOpts = Object.assign({}, core.getInput('pdfOpts'), pdfDefaults);
+            const pdfOpts = Object.assign({}, core.getInput('pdfOptions'), pdfDefaults);
             const pptrOpts = {
                 executablePath: googlePath,
                 args: ['--no-sandbox', '--headless', '--disable-gpu']
