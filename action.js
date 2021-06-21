@@ -15,7 +15,7 @@ const puppeteer = require('puppeteer');
                 'displayHeaderFooter': false,
                 'path': outputFile
             };
-            const pdfOpts = Object.assign({}, core.getInput('pdfOptions'), pdfDefaults);
+            const pdfOpts = Object.assign({}, JSON.parse(core.getInput('pdfOptions')), pdfDefaults);
             const pptrOpts = {
                 executablePath: googlePath,
                 args: ['--no-sandbox', '--headless', '--disable-gpu']
@@ -52,4 +52,3 @@ const puppeteer = require('puppeteer');
         core.setFailed(error.message);
     }
 })();
-
