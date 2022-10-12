@@ -8,6 +8,10 @@ inputs:
   outputFile:
     description: 'Path to the resulting PDF file'
     required: true
+  useScreen:
+    description: 'Use the option emulateMediaType to generate with screen media'
+    required: false
+    default: "false"
   pdfOptions:
     description: |
       PDF options as described here:
